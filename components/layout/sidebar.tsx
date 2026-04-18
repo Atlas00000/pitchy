@@ -30,13 +30,19 @@ export function Sidebar() {
 
   return (
     <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col overflow-y-auto border-r border-pitchly-border bg-sidebar px-3 py-4">
-      <div className="mb-6 flex items-center gap-2 px-3">
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-pitchly-brand shadow-pitchly-raised">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-            <path d="M3 12L6 5L9 9L11 7L14 12H3Z" fill="white" strokeLinejoin="round" />
-          </svg>
-        </span>
-        <span className="text-lg font-bold tracking-tight text-pitchly-text-primary">Pitchly</span>
+      <div className="mb-6 px-3">
+        <Link
+          href="/dashboard"
+          className="group inline-block outline-none focus-visible:ring-2 focus-visible:ring-pitchly-brand/35 focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar"
+          aria-label="Pitchly — go to overview"
+        >
+          <span className="text-xl font-bold tracking-tight transition-opacity duration-150 group-hover:opacity-90">
+            <span className="bg-gradient-to-r from-pitchly-brand via-pitchly-brand-muted to-pitchly-text-primary bg-clip-text text-transparent">
+              Pitchly
+            </span>
+          </span>
+          <span className="mt-2 block h-px w-0 bg-gradient-to-r from-pitchly-brand to-pitchly-brand-muted transition-all duration-300 group-hover:w-full" />
+        </Link>
       </div>
 
       <p className="mb-2 px-3 text-[11px] font-medium uppercase tracking-widest text-pitchly-text-muted">
