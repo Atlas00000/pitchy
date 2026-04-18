@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build output
+.next
+out
+
+# Environment — never bake secrets into image
+.env
+.env.local
+.env*.local
+
+# Dev tooling
+.git
+.gitignore
+.github
+.vscode
+.claude
+
+# Test artifacts
+coverage
+playwright-report
+test-results
+e2e
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs (not needed at runtime)
+*.md

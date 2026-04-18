@@ -1,3 +1,6 @@
+// Dashboard pages require auth + runtime data — never statically prerender
+export const dynamic = "force-dynamic"
+
 import { Sidebar } from "@/components/layout/sidebar"
 import { Topbar } from "@/components/layout/topbar"
 import { ToastProvider } from "@/components/shared/toast"
