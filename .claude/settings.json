@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(pnpm tsc --noEmit)",
-      "Bash(pnpm -v)"
+      "Bash(pnpm -v)",
+      "Bash(curl -s -o /dev/null -w * http://localhost:*)",
+      "Bash(curl -s -o /dev/null -w * -L http://localhost:*)",
+      "Bash(curl -v http://localhost:*)",
+      "Bash(npx convex env list)"
     ]
   }
 }

@@ -32,6 +32,45 @@ export const getAnalysisByRep = query({
   },
 })
 
+export const getAllAnalyses = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) return []
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .unique()
+
+    if (!user) return []
+
+    // Managers see all analyses for their team's calls; reps see only their own
+    const calls = await ctx.db
+      .query("calls")
+      .withIndex(
+        user.role === "manager" && user.teamId ? "by_team" : "by_rep",
+        (q) =>
+          user.role === "manager" && user.teamId
+            ? (q as any).eq("teamId", user.teamId)
+            : (q as any).eq("repId", user._id)
+      )
+      .collect()
+
+    const analyses = await Promise.all(
+      calls.map(async (call) => {
+        const analysis = await ctx.db
+          .query("callAnalysis")
+          .withIndex("by_call", (q) => q.eq("callId", call._id))
+          .unique()
+        return analysis ? { ...analysis, callDate: call.callDate } : null
+      })
+    )
+
+    return analyses.filter((a): a is NonNullable<typeof a> => a !== null)
+  },
+})
+
 export const saveAnalysis = mutation({
   args: {
     callId: v.id("calls"),
