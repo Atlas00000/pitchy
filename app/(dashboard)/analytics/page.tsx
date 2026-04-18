@@ -4,11 +4,14 @@ import { useMemo } from "react"
 import { useQuery } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { useCalls } from "@/hooks/use-calls"
+import { BarChart2 } from "lucide-react"
 import { PageHeader } from "@/components/shared/page-header"
 import { ScoreTrendChart } from "@/components/analytics/score-trend-chart"
 import { ObjectionBarChart } from "@/components/analytics/objection-bar-chart"
 import { RepLeaderboard } from "@/components/analytics/rep-leaderboard"
 import { CallVolumeChart } from "@/components/analytics/call-volume-chart"
+import { ChartSkeleton } from "@/components/shared/loading-skeleton"
+import { EmptyState } from "@/components/shared/empty-state"
 import type { Id } from "@/convex/_generated/dataModel"
 
 export default function AnalyticsPage() {
@@ -78,6 +81,7 @@ export default function AnalyticsPage() {
   }, [calls, allAnalyses])
 
   const isLoading = calls === undefined || allAnalyses === undefined
+  const hasData = (calls?.length ?? 0) > 0
 
   return (
     <div className="flex flex-col gap-6">
@@ -86,7 +90,15 @@ export default function AnalyticsPage() {
         description="Team-level performance trends and insights."
       />
       {isLoading ? (
-        <p className="text-sm text-muted-foreground">Loading…</p>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {Array.from({ length: 4 }).map((_, i) => <ChartSkeleton key={i} />)}
+        </div>
+      ) : !hasData ? (
+        <EmptyState
+          icon={BarChart2}
+          title="No data yet"
+          description="Analytics will populate once calls are uploaded and analyzed."
+        />
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <ScoreTrendChart data={scoreTrend} />

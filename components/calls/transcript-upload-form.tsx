@@ -33,10 +33,25 @@ export function TranscriptUploadForm({ onSubmit, isSubmitting }: TranscriptUploa
   const [form, setForm] = useState<FormState>(DEFAULT_FORM)
   const [fileError, setFileError] = useState<string | null>(null)
   const [fileName, setFileName] = useState<string | null>(null)
+  const [touched, setTouched] = useState<Partial<Record<keyof FormState, boolean>>>({})
   const fileRef = useRef<HTMLInputElement>(null)
 
   function set<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))
+  }
+
+  function touch(key: keyof FormState) {
+    setTouched((prev) => ({ ...prev, [key]: true }))
+  }
+
+  function fieldError(key: keyof FormState): string | null {
+    if (!touched[key]) return null
+    if (key === "transcriptText" && form.transcriptText.trim().length < 50)
+      return "Transcript must be at least 50 characters."
+    if (key === "repName" && !form.repName.trim()) return "Rep name is required."
+    if (key === "prospectCompany" && !form.prospectCompany.trim()) return "Company name is required."
+    if (key === "callDate" && !form.callDate) return "Call date is required."
+    return null
   }
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -90,14 +105,19 @@ export function TranscriptUploadForm({ onSubmit, isSubmitting }: TranscriptUploa
 
       {/* Input area */}
       {tab === "paste" ? (
-        <textarea
-          value={form.transcriptText}
-          onChange={(e) => set("transcriptText", e.target.value)}
-          placeholder="Paste your call transcript here…"
-          rows={12}
-          className="w-full rounded-md border bg-background px-3 py-2 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-foreground"
-          required
-        />
+        <div className="flex flex-col gap-1">
+          <textarea
+            value={form.transcriptText}
+            onChange={(e) => set("transcriptText", e.target.value)}
+            onBlur={() => touch("transcriptText")}
+            placeholder="Paste your call transcript here…"
+            rows={12}
+            className={`w-full rounded-md border bg-background px-3 py-2 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-foreground ${fieldError("transcriptText") ? "border-red-400" : ""}`}
+          />
+          {fieldError("transcriptText") && (
+            <p className="text-xs text-red-500">{fieldError("transcriptText")}</p>
+          )}
+        </div>
       ) : (
         <div className="flex flex-col gap-2">
           <label className="flex flex-col items-center justify-center border-2 border-dashed rounded-md p-8 text-sm text-muted-foreground cursor-pointer hover:bg-muted transition-colors">
@@ -133,10 +153,11 @@ export function TranscriptUploadForm({ onSubmit, isSubmitting }: TranscriptUploa
           <input
             value={form.repName}
             onChange={(e) => set("repName", e.target.value)}
+            onBlur={() => touch("repName")}
             placeholder="e.g. Jane Smith"
-            className="rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground"
-            required
+            className={`rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground ${fieldError("repName") ? "border-red-400" : ""}`}
           />
+          {fieldError("repName") && <p className="text-xs text-red-500">{fieldError("repName")}</p>}
         </div>
 
         <div className="flex flex-col gap-1">
@@ -144,10 +165,11 @@ export function TranscriptUploadForm({ onSubmit, isSubmitting }: TranscriptUploa
           <input
             value={form.prospectCompany}
             onChange={(e) => set("prospectCompany", e.target.value)}
+            onBlur={() => touch("prospectCompany")}
             placeholder="e.g. Acme Corp"
-            className="rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground"
-            required
+            className={`rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground ${fieldError("prospectCompany") ? "border-red-400" : ""}`}
           />
+          {fieldError("prospectCompany") && <p className="text-xs text-red-500">{fieldError("prospectCompany")}</p>}
         </div>
 
         <div className="flex flex-col gap-1">
@@ -156,9 +178,10 @@ export function TranscriptUploadForm({ onSubmit, isSubmitting }: TranscriptUploa
             type="date"
             value={form.callDate}
             onChange={(e) => set("callDate", e.target.value)}
-            className="rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground"
-            required
+            onBlur={() => touch("callDate")}
+            className={`rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground ${fieldError("callDate") ? "border-red-400" : ""}`}
           />
+          {fieldError("callDate") && <p className="text-xs text-red-500">{fieldError("callDate")}</p>}
         </div>
 
         <div className="flex flex-col gap-1">

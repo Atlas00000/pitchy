@@ -1,6 +1,6 @@
 "use client"
 
-import { use } from "react"
+import { use, useEffect, useRef } from "react"
 import { useCall } from "@/hooks/use-calls"
 import { useAnalysis } from "@/hooks/use-analysis"
 import { TranscriptViewer } from "@/components/calls/transcript-viewer"
@@ -9,6 +9,9 @@ import { AnalysisSummaryCard } from "@/components/analysis/analysis-summary-card
 import { ScoreCard } from "@/components/analysis/score-card"
 import { ObjectionList } from "@/components/analysis/objection-list"
 import { CoachingNotesList } from "@/components/analysis/coaching-notes-list"
+import { AnalyzedWithBadge } from "@/components/analysis/analyzed-with-badge"
+import { RetryButton } from "@/components/calls/retry-button"
+import { useToast } from "@/components/shared/toast"
 import { DEAL_STAGES } from "@/lib/constants"
 import type { Id } from "@/convex/_generated/dataModel"
 
@@ -19,6 +22,21 @@ interface PageProps {
 function CallDetailContent({ callId }: { callId: Id<"calls"> }) {
   const call = useCall(callId)
   const analysis = useAnalysis(callId)
+  const showToast = useToast()
+  const prevStatus = useRef<string | undefined>(undefined)
+
+  useEffect(() => {
+    if (!call) return
+    const prev = prevStatus.current
+    const next = call.status
+    if (prev === "analyzing" && next === "complete") {
+      showToast("Analysis complete!", "success")
+    }
+    if (prev === "analyzing" && next === "failed") {
+      showToast("Analysis failed. You can retry below.", "error")
+    }
+    prevStatus.current = next
+  }, [call?.status, call, showToast])
 
   if (call === undefined) {
     return <p className="text-sm text-muted-foreground">Loading…</p>
@@ -34,11 +52,19 @@ function CallDetailContent({ callId }: { callId: Id<"calls"> }) {
     <div className="flex flex-col gap-6">
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
-        <div>
+        <div className="flex flex-col gap-1">
           <h1 className="text-xl font-semibold">{call.prospectCompany}</h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground">
             {call.repName} · {call.callDate} · {DEAL_STAGES[call.dealStage]}
           </p>
+          {analysis && (
+            <div className="mt-1">
+              <AnalyzedWithBadge
+                analyzedWith={analysis.analyzedWith}
+                promptVersion={analysis.promptVersion}
+              />
+            </div>
+          )}
         </div>
         <StatusBadge status={call.status} />
       </div>
@@ -50,9 +76,12 @@ function CallDetailContent({ callId }: { callId: Id<"calls"> }) {
         </p>
       )}
       {call.status === "failed" && (
-        <p className="text-sm text-red-500 border border-red-200 rounded-md px-3 py-2 bg-red-50">
-          Analysis failed{call.errorMessage ? `: ${call.errorMessage}` : "."} You can retry by re-submitting the transcript.
-        </p>
+        <div className="flex flex-col gap-2 border border-red-200 rounded-md px-3 py-2 bg-red-50">
+          <p className="text-sm text-red-500">
+            Analysis failed{call.errorMessage ? `: ${call.errorMessage}` : "."}
+          </p>
+          <RetryButton callId={callId} />
+        </div>
       )}
 
       {/* Transcript */}

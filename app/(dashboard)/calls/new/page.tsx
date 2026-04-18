@@ -2,10 +2,12 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { useMutation, useAction } from "convex/react"
+import { useMutation, useAction, useConvexAuth } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { TranscriptUploadForm } from "@/components/calls/transcript-upload-form"
+import { useToast } from "@/components/shared/toast"
 import type { DealStage } from "@/types"
+import type { Id } from "@/convex/_generated/dataModel"
 
 interface FormData {
   transcriptText: string
@@ -17,16 +19,43 @@ interface FormData {
 
 export default function NewCallPage() {
   const router = useRouter()
-  const createCall = useMutation(api.calls.createCall)
+  const { isAuthenticated, isLoading: authLoading } = useConvexAuth()
+  const createCall = useMutation(api.calls.createCall).withOptimisticUpdate(
+    (localStore, args) => {
+      const existing = localStore.getQuery(api.calls.getCalls, {})
+      if (existing === undefined) return
+      localStore.setQuery(api.calls.getCalls, {}, [
+        {
+          _id: `optimistic_${Date.now()}` as Id<"calls">,
+          _creationTime: Date.now(),
+          transcriptText: args.transcriptText,
+          repName: args.repName,
+          prospectCompany: args.prospectCompany,
+          dealStage: args.dealStage,
+          callDate: args.callDate,
+          repId: "optimistic" as Id<"users">,
+          teamId: undefined,
+          status: "pending" as const,
+        },
+        ...existing,
+      ])
+    }
+  )
   const analyzeCall = useAction(api.actions.analyzeCall.analyzeCall)
+  const showToast = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   async function handleSubmit(data: FormData) {
+    if (!isAuthenticated) {
+      setError("Session expired — please sign in again.")
+      return
+    }
     setIsSubmitting(true)
     setError(null)
     try {
       const callId = await createCall(data)
+      showToast("Call submitted — AI analysis running in background.", "success")
       // Fire-and-forget — analysis runs in background, status updates reactively
       analyzeCall({ callId }).catch(() => {})
       router.push(`/calls/${callId}`)
@@ -34,6 +63,10 @@ export default function NewCallPage() {
       setError(err instanceof Error ? err.message : "Something went wrong")
       setIsSubmitting(false)
     }
+  }
+
+  if (authLoading) {
+    return <p className="text-sm text-muted-foreground">Loading…</p>
   }
 
   return (

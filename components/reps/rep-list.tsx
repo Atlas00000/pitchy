@@ -1,8 +1,11 @@
 "use client"
 
 import { useMemo } from "react"
+import { Users } from "lucide-react"
 import { useCalls } from "@/hooks/use-calls"
 import { RepCard } from "./rep-card"
+import { EmptyState } from "@/components/shared/empty-state"
+import { RepCardSkeleton } from "@/components/shared/loading-skeleton"
 import type { Id } from "@/convex/_generated/dataModel"
 
 interface RepRow {
@@ -40,14 +43,20 @@ export function RepList() {
   }, [calls])
 
   if (calls === undefined) {
-    return <p className="text-sm text-muted-foreground">Loading…</p>
+    return (
+      <div className="flex flex-col gap-2">
+        {Array.from({ length: 4 }).map((_, i) => <RepCardSkeleton key={i} />)}
+      </div>
+    )
   }
 
   if (reps.length === 0) {
     return (
-      <p className="text-sm text-muted-foreground">
-        No reps found. Calls will appear here once transcripts are uploaded.
-      </p>
+      <EmptyState
+        icon={Users}
+        title="No reps yet"
+        description="Rep profiles appear here once calls are uploaded and tagged with a rep name."
+      />
     )
   }
 

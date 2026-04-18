@@ -27,3 +27,24 @@ export function RowSkeleton() {
     </div>
   )
 }
+
+export function RepCardSkeleton() {
+  return (
+    <div className="rounded-xl border p-4 flex items-center justify-between gap-4">
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-28" />
+        <Skeleton className="h-3 w-20" />
+      </div>
+      <Skeleton className="h-6 w-10 rounded-full" />
+    </div>
+  )
+}
+
+export function ChartSkeleton() {
+  return (
+    <div className="rounded-xl border p-5 space-y-3">
+      <Skeleton className="h-4 w-32" />
+      <Skeleton className="h-[180px] w-full rounded-md" />
+    </div>
+  )
+}

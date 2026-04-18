@@ -21,6 +21,31 @@ export const getUser = query({
   },
 })
 
+// Called on every dashboard mount — creates the Convex user record from Clerk
+// identity if it doesn't exist yet (handles direct sign-in that skips onboarding)
+export const ensureCurrentUser = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) throw new Error("Unauthenticated")
+
+    const existing = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .unique()
+
+    if (existing) return existing._id
+
+    return ctx.db.insert("users", {
+      clerkId: identity.subject,
+      name: identity.name ?? "Unknown",
+      email: identity.email ?? "",
+      role: "rep",
+      aiProvider: DEFAULT_AI_PROVIDER,
+    })
+  },
+})
+
 export const createUser = mutation({
   args: {
     clerkId: v.string(),

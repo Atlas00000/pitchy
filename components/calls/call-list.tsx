@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { Phone } from "lucide-react"
 import { useCalls } from "@/hooks/use-calls"
 import { CallCard } from "./call-card"
@@ -27,6 +28,14 @@ export function CallList({ limit }: CallListProps) {
         icon={Phone}
         title="No calls yet"
         description="Upload your first transcript to get started."
+        action={
+          <Link
+            href="/calls/new"
+            className="px-4 py-2 rounded-md bg-foreground text-background text-sm font-medium hover:opacity-90 transition"
+          >
+            Upload transcript
+          </Link>
+        }
       />
     )
   }
