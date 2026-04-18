@@ -1,13 +1,17 @@
 // Dashboard pages require auth + runtime data — never statically prerender
 export const dynamic = "force-dynamic"
 
+import { auth } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
 import { Sidebar } from "@/components/layout/sidebar"
 import { Topbar } from "@/components/layout/topbar"
 import { ToastProvider } from "@/components/shared/toast"
 import { ErrorBoundary } from "@/components/shared/error-boundary"
 import { UserProvider } from "@/components/providers/user-provider"
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const { userId } = await auth()
+  if (!userId) redirect("/sign-in")
   return (
     <ToastProvider>
       <UserProvider>

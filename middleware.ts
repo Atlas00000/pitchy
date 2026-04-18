@@ -1,15 +1,11 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
+import { NextResponse } from "next/server"
 
-export const runtime = "nodejs"
-
-const isProtectedRoute = createRouteMatcher(["/dashboard(.*)", "/calls(.*)", "/reps(.*)", "/analytics(.*)", "/settings(.*)"])
-
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect()
-  }
-})
+// Auth protection is handled server-side in each layout via @clerk/nextjs/server auth()
+// This middleware is intentionally minimal to avoid Edge runtime incompatibilities
+export function middleware() {
+  return NextResponse.next()
+}
 
 export const config = {
-  matcher: ["/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)", "/(api|trpc)(.*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 }
