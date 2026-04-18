@@ -1,8 +1,11 @@
 "use client"
 
+import type { ChangeEvent, FormEvent } from "react"
 import { useState, useRef } from "react"
 import { DEAL_STAGES } from "@/lib/constants"
 import { parseTranscriptFile } from "@/lib/utils/parseFile"
+import { Button } from "@/components/ui/button"
+import { PitchlyCard } from "@/components/ui/pitchly-card"
 import type { DealStage } from "@/types"
 
 interface FormState {
@@ -27,6 +30,11 @@ const DEFAULT_FORM: FormState = {
 }
 
 type Tab = "paste" | "file"
+
+const inputClass =
+  "w-full rounded-md border border-pitchly-border bg-pitchly-canvas px-3 py-2 text-sm text-pitchly-text-primary shadow-sm transition-colors duration-150 placeholder:text-pitchly-text-muted focus:border-pitchly-border-strong focus:outline-none focus:ring-2 focus:ring-pitchly-brand/25"
+
+const inputErrorClass = "border-pitchly-score-critical focus:ring-pitchly-score-critical/25"
 
 export function TranscriptUploadForm({ onSubmit, isSubmitting }: TranscriptUploadFormProps) {
   const [tab, setTab] = useState<Tab>("paste")
@@ -54,7 +62,7 @@ export function TranscriptUploadForm({ onSubmit, isSubmitting }: TranscriptUploa
     return null
   }
 
-  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleFile(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
     setFileError(null)
@@ -72,7 +80,7 @@ export function TranscriptUploadForm({ onSubmit, isSubmitting }: TranscriptUploa
     set("transcriptText", text)
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     await onSubmit(form)
   }
@@ -84,129 +92,130 @@ export function TranscriptUploadForm({ onSubmit, isSubmitting }: TranscriptUploa
     form.callDate
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-2xl">
-      {/* Tab switcher */}
-      <div className="flex gap-1 border-b">
-        {(["paste", "file"] as Tab[]).map((t) => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => setTab(t)}
-            className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
-              tab === t
-                ? "border-foreground text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {t === "paste" ? "Paste Text" : "Upload File"}
-          </button>
-        ))}
-      </div>
-
-      {/* Input area */}
-      {tab === "paste" ? (
-        <div className="flex flex-col gap-1">
-          <textarea
-            value={form.transcriptText}
-            onChange={(e) => set("transcriptText", e.target.value)}
-            onBlur={() => touch("transcriptText")}
-            placeholder="Paste your call transcript here…"
-            rows={12}
-            className={`w-full rounded-md border bg-background px-3 py-2 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-foreground ${fieldError("transcriptText") ? "border-red-400" : ""}`}
-          />
-          {fieldError("transcriptText") && (
-            <p className="text-xs text-red-500">{fieldError("transcriptText")}</p>
-          )}
+    <PitchlyCard padding="lg" className="max-w-2xl">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <div className="flex gap-1 border-b border-pitchly-border">
+          {(["paste", "file"] as Tab[]).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTab(t)}
+              className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors duration-150 ease-out -mb-px ${
+                tab === t
+                  ? "border-pitchly-brand text-pitchly-text-primary"
+                  : "border-transparent text-pitchly-text-muted hover:text-pitchly-text-secondary"
+              }`}
+            >
+              {t === "paste" ? "Paste text" : "Upload file"}
+            </button>
+          ))}
         </div>
-      ) : (
-        <div className="flex flex-col gap-2">
-          <label className="flex flex-col items-center justify-center border-2 border-dashed rounded-md p-8 text-sm text-muted-foreground cursor-pointer hover:bg-muted transition-colors">
-            <input
-              ref={fileRef}
-              type="file"
-              accept=".txt,.pdf,.docx"
-              className="hidden"
-              onChange={handleFile}
+
+        {tab === "paste" ? (
+          <div className="flex flex-col gap-1">
+            <textarea
+              value={form.transcriptText}
+              onChange={(e) => set("transcriptText", e.target.value)}
+              onBlur={() => touch("transcriptText")}
+              placeholder="Paste your call transcript here…"
+              rows={12}
+              className={`${inputClass} min-h-[12rem] resize-y ${fieldError("transcriptText") ? inputErrorClass : ""}`}
             />
-            {fileName ? (
-              <span className="text-foreground font-medium">{fileName}</span>
-            ) : (
-              <>
-                <span>Click to upload</span>
-                <span className="text-xs mt-1">Supports .txt, .pdf, .docx</span>
-              </>
+            {fieldError("transcriptText") && (
+              <p className="text-xs font-medium text-pitchly-score-critical">{fieldError("transcriptText")}</p>
             )}
-          </label>
-          {fileError && <p className="text-sm text-red-500">{fileError}</p>}
-          {form.transcriptText && !fileError && (
-            <p className="text-xs text-muted-foreground">
-              Extracted {form.transcriptText.length.toLocaleString()} characters — review before submitting.
-            </p>
-          )}
-        </div>
-      )}
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2">
+            <label className="flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-pitchly-border-strong bg-pitchly-surface/50 p-8 text-sm text-pitchly-text-secondary transition-colors duration-150 hover:border-pitchly-brand-muted hover:bg-pitchly-surface">
+              <input
+                ref={fileRef}
+                type="file"
+                accept=".txt,.pdf,.docx"
+                className="hidden"
+                onChange={handleFile}
+              />
+              {fileName ? (
+                <span className="font-medium text-pitchly-text-primary">{fileName}</span>
+              ) : (
+                <>
+                  <span>Click to upload</span>
+                  <span className="mt-1 text-xs text-pitchly-text-muted">Supports .txt, .pdf, .docx</span>
+                </>
+              )}
+            </label>
+            {fileError && <p className="text-sm font-medium text-pitchly-score-critical">{fileError}</p>}
+            {form.transcriptText && !fileError && (
+              <p className="text-xs text-pitchly-text-muted">
+                Extracted {form.transcriptText.length.toLocaleString()} characters — review before submitting.
+              </p>
+            )}
+          </div>
+        )}
 
-      {/* Metadata fields */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Rep Name</label>
-          <input
-            value={form.repName}
-            onChange={(e) => set("repName", e.target.value)}
-            onBlur={() => touch("repName")}
-            placeholder="e.g. Jane Smith"
-            className={`rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground ${fieldError("repName") ? "border-red-400" : ""}`}
-          />
-          {fieldError("repName") && <p className="text-xs text-red-500">{fieldError("repName")}</p>}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-pitchly-text-primary">Rep name</label>
+            <input
+              value={form.repName}
+              onChange={(e) => set("repName", e.target.value)}
+              onBlur={() => touch("repName")}
+              placeholder="e.g. Jane Smith"
+              className={`${inputClass} ${fieldError("repName") ? inputErrorClass : ""}`}
+            />
+            {fieldError("repName") && (
+              <p className="text-xs font-medium text-pitchly-score-critical">{fieldError("repName")}</p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-pitchly-text-primary">Prospect company</label>
+            <input
+              value={form.prospectCompany}
+              onChange={(e) => set("prospectCompany", e.target.value)}
+              onBlur={() => touch("prospectCompany")}
+              placeholder="e.g. Acme Corp"
+              className={`${inputClass} ${fieldError("prospectCompany") ? inputErrorClass : ""}`}
+            />
+            {fieldError("prospectCompany") && (
+              <p className="text-xs font-medium text-pitchly-score-critical">{fieldError("prospectCompany")}</p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-pitchly-text-primary">Call date</label>
+            <input
+              type="date"
+              value={form.callDate}
+              onChange={(e) => set("callDate", e.target.value)}
+              onBlur={() => touch("callDate")}
+              className={`${inputClass} ${fieldError("callDate") ? inputErrorClass : ""}`}
+            />
+            {fieldError("callDate") && (
+              <p className="text-xs font-medium text-pitchly-score-critical">{fieldError("callDate")}</p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-pitchly-text-primary">Deal stage</label>
+            <select
+              value={form.dealStage}
+              onChange={(e) => set("dealStage", e.target.value as DealStage)}
+              className={inputClass}
+            >
+              {Object.entries(DEAL_STAGES).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Prospect Company</label>
-          <input
-            value={form.prospectCompany}
-            onChange={(e) => set("prospectCompany", e.target.value)}
-            onBlur={() => touch("prospectCompany")}
-            placeholder="e.g. Acme Corp"
-            className={`rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground ${fieldError("prospectCompany") ? "border-red-400" : ""}`}
-          />
-          {fieldError("prospectCompany") && <p className="text-xs text-red-500">{fieldError("prospectCompany")}</p>}
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Call Date</label>
-          <input
-            type="date"
-            value={form.callDate}
-            onChange={(e) => set("callDate", e.target.value)}
-            onBlur={() => touch("callDate")}
-            className={`rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground ${fieldError("callDate") ? "border-red-400" : ""}`}
-          />
-          {fieldError("callDate") && <p className="text-xs text-red-500">{fieldError("callDate")}</p>}
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Deal Stage</label>
-          <select
-            value={form.dealStage}
-            onChange={(e) => set("dealStage", e.target.value as DealStage)}
-            className="rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-foreground"
-          >
-            {Object.entries(DEAL_STAGES).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        disabled={!canSubmit || isSubmitting}
-        className="self-start px-5 py-2.5 rounded-md bg-foreground text-background text-sm font-medium hover:opacity-90 transition disabled:opacity-40 disabled:cursor-not-allowed"
-      >
-        {isSubmitting ? "Submitting…" : "Analyze Call"}
-      </button>
-    </form>
+        <Button type="submit" disabled={!canSubmit || isSubmitting} className="self-start">
+          {isSubmitting ? "Submitting…" : "Analyze call"}
+        </Button>
+      </form>
+    </PitchlyCard>
   )
 }

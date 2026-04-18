@@ -1,3 +1,7 @@
+import { PitchlyCard } from "@/components/ui/pitchly-card"
+import { bandText, scoreToBand } from "@/components/analysis/analysis-score-bands"
+import { cn } from "@/lib/utils"
+
 interface RepStatsHeaderProps {
   name: string
   email: string
@@ -6,39 +10,38 @@ interface RepStatsHeaderProps {
   avgScore: number | null
 }
 
-function scoreColor(score: number): string {
-  if (score <= 4) return "text-red-600"
-  if (score <= 6) return "text-yellow-600"
-  return "text-green-600"
-}
-
 export function RepStatsHeader({ name, email, totalCalls, completedCalls, avgScore }: RepStatsHeaderProps) {
   return (
-    <div className="rounded-md border p-4 flex flex-col gap-4">
+    <PitchlyCard padding="lg" accent="brand" className="flex flex-col gap-5">
       <div>
-        <h1 className="text-xl font-semibold">{name}</h1>
-        <p className="text-sm text-muted-foreground">{email}</p>
+        <h1 className="text-xl font-semibold tracking-tight text-pitchly-text-primary">{name}</h1>
+        <p className="mt-1 font-mono text-sm text-pitchly-text-secondary">{email}</p>
       </div>
-      <div className="flex gap-6">
+      <div className="grid grid-cols-1 gap-6 border-t border-pitchly-border pt-5 sm:grid-cols-3">
         <div className="flex flex-col gap-0.5">
-          <span className="text-2xl font-bold tabular-nums">{totalCalls}</span>
-          <span className="text-xs text-muted-foreground">Total Calls</span>
+          <span className="font-mono text-3xl font-bold tabular-nums text-pitchly-text-primary">{totalCalls}</span>
+          <span className="text-xs font-medium uppercase tracking-wide text-pitchly-text-muted">Total calls</span>
         </div>
         <div className="flex flex-col gap-0.5">
-          <span className="text-2xl font-bold tabular-nums">{completedCalls}</span>
-          <span className="text-xs text-muted-foreground">Analyzed</span>
+          <span className="font-mono text-3xl font-bold tabular-nums text-pitchly-text-primary">{completedCalls}</span>
+          <span className="text-xs font-medium uppercase tracking-wide text-pitchly-text-muted">Analyzed</span>
         </div>
         <div className="flex flex-col gap-0.5">
           {avgScore !== null ? (
-            <span className={`text-2xl font-bold tabular-nums ${scoreColor(avgScore)}`}>
+            <span
+              className={cn(
+                "font-mono text-3xl font-bold tabular-nums",
+                bandText[scoreToBand(avgScore)]
+              )}
+            >
               {avgScore.toFixed(1)}
             </span>
           ) : (
-            <span className="text-2xl font-bold text-muted-foreground">—</span>
+            <span className="font-mono text-3xl font-bold text-pitchly-text-muted">—</span>
           )}
-          <span className="text-xs text-muted-foreground">Avg Score</span>
+          <span className="text-xs font-medium uppercase tracking-wide text-pitchly-text-muted">Avg score</span>
         </div>
       </div>
-    </div>
+    </PitchlyCard>
   )
 }

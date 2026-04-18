@@ -22,9 +22,17 @@ export function Topbar() {
   const pathname = usePathname()
 
   return (
-    <header className="flex items-center justify-between border-b px-6 h-14 bg-background shrink-0">
-      <h1 className="text-sm font-semibold">{getTitle(pathname)}</h1>
-      <UserButton />
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-pitchly-border bg-pitchly-canvas/95 px-6 backdrop-blur-md supports-[backdrop-filter]:bg-pitchly-canvas/80">
+      <h1 className="text-lg font-semibold tracking-tight text-pitchly-text-primary">
+        {getTitle(pathname)}
+      </h1>
+      <UserButton
+        appearance={{
+          elements: {
+            userButtonAvatarBox: "ring-2 ring-pitchly-border ring-offset-2 ring-offset-pitchly-canvas",
+          },
+        }}
+      />
     </header>
   )
 }

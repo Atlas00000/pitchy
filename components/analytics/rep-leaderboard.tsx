@@ -1,4 +1,7 @@
 import Link from "next/link"
+import { PitchlyCard } from "@/components/ui/pitchly-card"
+import { bandText, scoreToBand } from "@/components/analysis/analysis-score-bands"
+import { cn } from "@/lib/utils"
 import type { Id } from "@/convex/_generated/dataModel"
 
 interface RepRow {
@@ -12,43 +15,48 @@ interface RepLeaderboardProps {
   rows: RepRow[]
 }
 
-function scoreColor(score: number): string {
-  if (score <= 4) return "text-red-600"
-  if (score <= 6) return "text-yellow-600"
-  return "text-green-600"
-}
-
 export function RepLeaderboard({ rows }: RepLeaderboardProps) {
   if (rows.length === 0) {
     return (
-      <div className="rounded-md border p-4">
-        <h2 className="text-sm font-semibold mb-3">Rep Leaderboard</h2>
-        <p className="text-sm text-muted-foreground">No data yet.</p>
-      </div>
+      <PitchlyCard padding="default" className="flex flex-col gap-3">
+        <h2 className="text-xs font-medium uppercase tracking-widest text-pitchly-text-muted">Rep leaderboard</h2>
+        <p className="text-sm text-pitchly-text-secondary">No data yet.</p>
+      </PitchlyCard>
     )
   }
 
   const sorted = [...rows].sort((a, b) => b.avgScore - a.avgScore)
 
   return (
-    <div className="rounded-md border p-4 flex flex-col gap-3">
-      <h2 className="text-sm font-semibold">Rep Leaderboard</h2>
-      <div className="flex flex-col gap-1">
+    <PitchlyCard padding="default" className="flex flex-col gap-3">
+      <h2 className="text-xs font-medium uppercase tracking-widest text-pitchly-text-muted">Rep leaderboard</h2>
+      <div className="flex flex-col overflow-hidden rounded-lg border border-pitchly-border">
         {sorted.map((row, i) => (
           <Link
             key={row.repId}
             href={`/reps/${row.repId}`}
-            className="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-muted/50 transition-colors"
+            className={cn(
+              "flex items-center gap-3 border-b border-pitchly-border px-3 py-2.5 transition-colors duration-150 last:border-b-0",
+              i % 2 === 1 ? "bg-pitchly-surface/50" : "bg-pitchly-canvas",
+              "hover:bg-pitchly-surface"
+            )}
           >
-            <span className="text-xs text-muted-foreground w-5 text-right tabular-nums">{i + 1}.</span>
-            <span className="text-sm flex-1">{row.name}</span>
-            <span className="text-xs text-muted-foreground tabular-nums">{row.callCount} calls</span>
-            <span className={`text-sm font-semibold tabular-nums w-10 text-right ${scoreColor(row.avgScore)}`}>
+            <span className="w-6 text-right font-mono text-xs tabular-nums text-pitchly-text-muted">
+              {i + 1}.
+            </span>
+            <span className="flex-1 text-sm font-medium text-pitchly-text-primary">{row.name}</span>
+            <span className="font-mono text-xs tabular-nums text-pitchly-text-muted">{row.callCount} calls</span>
+            <span
+              className={cn(
+                "w-12 text-right font-mono text-sm font-semibold tabular-nums",
+                bandText[scoreToBand(row.avgScore)]
+              )}
+            >
               {row.avgScore.toFixed(1)}
             </span>
           </Link>
         ))}
       </div>
-    </div>
+    </PitchlyCard>
   )
 }

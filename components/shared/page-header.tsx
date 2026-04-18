@@ -1,17 +1,21 @@
+import type { ReactNode } from "react"
+
 interface PageHeaderProps {
   title: string
   description?: string
-  action?: React.ReactNode
+  action?: ReactNode
 }
 
 export function PageHeader({ title, description, action }: PageHeaderProps) {
   return (
-    <div className="flex items-start justify-between mb-6">
-      <div className="space-y-0.5">
-        <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
-        {description && <p className="text-sm text-muted-foreground">{description}</p>}
+    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="space-y-1">
+        <h2 className="text-xl font-semibold tracking-tight text-pitchly-text-primary">{title}</h2>
+        {description && (
+          <p className="max-w-2xl text-sm leading-relaxed text-pitchly-text-secondary">{description}</p>
+        )}
       </div>
-      {action && <div>{action}</div>}
+      {action ? <div className="shrink-0 sm:pt-0.5">{action}</div> : null}
     </div>
   )
 }

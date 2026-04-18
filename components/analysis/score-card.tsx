@@ -1,4 +1,6 @@
 import { ScoreDimensionBar } from "./score-dimension-bar"
+import { ScoreRing } from "./score-ring"
+import { PitchlyCard } from "@/components/ui/pitchly-card"
 
 interface Scores {
   overall: number
@@ -12,12 +14,6 @@ interface ScoreCardProps {
   scores: Scores
 }
 
-function overallColor(score: number): string {
-  if (score <= 4) return "text-red-600"
-  if (score <= 6) return "text-yellow-600"
-  return "text-green-600"
-}
-
 const DIMENSIONS: { key: keyof Omit<Scores, "overall">; label: string }[] = [
   { key: "discovery", label: "Discovery Quality" },
   { key: "objectionHandling", label: "Objection Handling" },
@@ -27,18 +23,19 @@ const DIMENSIONS: { key: keyof Omit<Scores, "overall">; label: string }[] = [
 
 export function ScoreCard({ scores }: ScoreCardProps) {
   return (
-    <div className="rounded-md border p-4 flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold">Call Score</h2>
-        <span className={`text-2xl font-bold tabular-nums ${overallColor(scores.overall)}`}>
-          {scores.overall.toFixed(1)}<span className="text-sm font-normal text-muted-foreground">/10</span>
-        </span>
+    <PitchlyCard padding="lg" className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-xs font-medium uppercase tracking-widest text-pitchly-text-muted">Call score</h2>
+          <p className="mt-1 text-sm text-pitchly-text-secondary">Weighted overall from four dimensions.</p>
+        </div>
+        <ScoreRing score={scores.overall} className="sm:mx-0 mx-auto" />
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4 border-t border-pitchly-border pt-5">
         {DIMENSIONS.map(({ key, label }) => (
           <ScoreDimensionBar key={key} label={label} score={scores[key]} />
         ))}
       </div>
-    </div>
+    </PitchlyCard>
   )
 }

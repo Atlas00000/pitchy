@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useMutation, useAction, useConvexAuth } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { TranscriptUploadForm } from "@/components/calls/transcript-upload-form"
+import { FadeInUp } from "@/components/motion/fade-in-up"
 import { useToast } from "@/components/shared/toast"
 import type { DealStage } from "@/types"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -56,7 +57,6 @@ export default function NewCallPage() {
     try {
       const callId = await createCall(data)
       showToast("Call submitted — AI analysis running in background.", "success")
-      // Fire-and-forget — analysis runs in background, status updates reactively
       analyzeCall({ callId }).catch(() => {})
       router.push(`/calls/${callId}`)
     } catch (err) {
@@ -66,23 +66,29 @@ export default function NewCallPage() {
   }
 
   if (authLoading) {
-    return <p className="text-sm text-muted-foreground">Loading…</p>
+    return <p className="text-sm text-pitchly-text-muted">Loading…</p>
   }
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-xl font-semibold">New Call</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Paste or upload a transcript to get AI-generated analysis, scores, and coaching notes.
-        </p>
-      </div>
+      <FadeInUp delay={0}>
+        <div className="border-b border-pitchly-border pb-6">
+          <h1 className="text-xl font-semibold tracking-tight text-pitchly-text-primary">New call</h1>
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-pitchly-text-secondary">
+            Paste or upload a transcript to get AI-generated analysis, scores, and coaching notes.
+          </p>
+        </div>
+      </FadeInUp>
       {error && (
-        <p className="text-sm text-red-500 border border-red-200 rounded-md px-3 py-2 bg-red-50">
-          {error}
-        </p>
+        <FadeInUp delay={0.04}>
+          <p className="rounded-md border border-pitchly-score-critical/35 bg-pitchly-surface px-3 py-2 text-sm font-medium text-pitchly-score-critical shadow-pitchly-raised">
+            {error}
+          </p>
+        </FadeInUp>
       )}
-      <TranscriptUploadForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+      <FadeInUp delay={0.06}>
+        <TranscriptUploadForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+      </FadeInUp>
     </div>
   )
 }

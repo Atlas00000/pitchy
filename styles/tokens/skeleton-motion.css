@@ -1,0 +1,25 @@
+/**
+ * Skeleton shimmer (UI-OVERHAUL.md — Week 3).
+ * Apply class `pitchly-skeleton-shimmer` with rounded geometry from the component.
+ */
+@keyframes pitchly-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.pitchly-skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--pitchly-raised) 0%,
+    var(--pitchly-surface) 45%,
+    var(--pitchly-canvas) 50%,
+    var(--pitchly-surface) 55%,
+    var(--pitchly-raised) 100%
+  );
+  background-size: 200% 100%;
+  animation: pitchly-shimmer 1.2s ease-in-out infinite;
+}

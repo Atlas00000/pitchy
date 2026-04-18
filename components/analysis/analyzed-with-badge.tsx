@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils"
+
 interface AnalyzedWithBadgeProps {
   analyzedWith: "gemini" | "claude"
   promptVersion: string
@@ -6,22 +8,27 @@ interface AnalyzedWithBadgeProps {
 const CONFIG = {
   gemini: {
     label: "Gemini 2.5 Flash",
-    style: "bg-blue-50 text-blue-700 border-blue-200",
+    style: "border-pitchly-brand-light bg-pitchly-brand-light text-pitchly-brand",
   },
   claude: {
     label: "Claude Sonnet",
-    style: "bg-purple-50 text-purple-700 border-purple-200",
+    style: "border-pitchly-brand-muted/40 bg-pitchly-surface text-pitchly-brand",
   },
-}
+} as const
 
 export function AnalyzedWithBadge({ analyzedWith, promptVersion }: AnalyzedWithBadgeProps) {
   const { label, style } = CONFIG[analyzedWith]
 
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium ${style}`}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium",
+        style
+      )}
+    >
       <span>Analyzed with {label}</span>
-      <span className="opacity-50">·</span>
-      <span className="opacity-70">{promptVersion}</span>
+      <span className="text-pitchly-text-muted">·</span>
+      <span className="font-mono text-[11px] text-pitchly-text-secondary">{promptVersion}</span>
     </span>
   )
 }

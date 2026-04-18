@@ -1,0 +1,43 @@
+/**
+ * Pitchly typography scale (UI-OVERHAUL.md — Week 1).
+ * Font families come from Next/font on <html> (--font-sans / --font-mono in @theme).
+ */
+:root {
+  /* Page title — 28–32px target */
+  --pitchly-text-page-title-size: 1.875rem;
+  --pitchly-text-page-title-weight: 700;
+  --pitchly-text-page-title-tracking: -0.04em;
+  --pitchly-text-page-title-leading: 1.2;
+
+  /* Section heading — 18–20px */
+  --pitchly-text-section-size: 1.125rem;
+  --pitchly-text-section-weight: 600;
+  --pitchly-text-section-tracking: -0.02em;
+  --pitchly-text-section-leading: 1.35;
+
+  /* Body */
+  --pitchly-text-body-size: 0.875rem;
+  --pitchly-text-body-weight: 400;
+  --pitchly-text-body-tracking: 0;
+  --pitchly-text-body-leading: 1.5;
+
+  /* Label — uppercase metadata */
+  --pitchly-text-label-size: 0.75rem;
+  --pitchly-text-label-weight: 500;
+  --pitchly-text-label-tracking: 0.04em;
+  --pitchly-text-label-leading: 1.25;
+
+  /* Scores */
+  --pitchly-text-score-lg-size: 3rem;
+  --pitchly-text-score-lg-weight: 700;
+  --pitchly-text-score-lg-tracking: -0.04em;
+  --pitchly-text-score-sm-size: 1.125rem;
+  --pitchly-text-score-sm-weight: 600;
+  --pitchly-text-score-sm-tracking: 0;
+
+  /* Mono data — 13–14px */
+  --pitchly-text-mono-size: 0.8125rem;
+  --pitchly-text-mono-weight: 400;
+  --pitchly-text-mono-tracking: 0;
+  --pitchly-text-mono-leading: 1.45;
+}

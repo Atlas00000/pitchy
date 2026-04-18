@@ -7,14 +7,14 @@ export function NavAuthLinks() {
   const { isSignedIn, isLoaded } = useAuth()
 
   if (!isLoaded) {
-    return <div className="h-9 w-24 animate-pulse rounded-lg bg-slate-100" />
+    return <div className="h-9 w-24 animate-pulse rounded-md bg-pitchly-raised" />
   }
 
   if (isSignedIn) {
     return (
       <Link
         href="/dashboard"
-        className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-700 hover:shadow-md"
+        className="rounded-md bg-pitchly-brand px-4 py-2 text-sm font-semibold text-white shadow-pitchly-raised transition-all duration-150 ease-out hover:opacity-90 hover:shadow-pitchly-floating active:scale-[0.97]"
       >
         Dashboard
       </Link>
@@ -24,7 +24,7 @@ export function NavAuthLinks() {
   return (
     <Link
       href="/sign-in"
-      className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-slate-300 hover:shadow-md"
+      className="rounded-md border border-pitchly-border bg-pitchly-canvas px-4 py-2 text-sm font-semibold text-pitchly-text-secondary shadow-pitchly-raised transition-all duration-150 ease-out hover:border-pitchly-border-strong hover:shadow-pitchly-floating hover:text-pitchly-text-primary active:scale-[0.97]"
     >
       Sign In
     </Link>

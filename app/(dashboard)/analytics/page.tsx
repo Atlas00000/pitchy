@@ -12,6 +12,7 @@ import { RepLeaderboard } from "@/components/analytics/rep-leaderboard"
 import { CallVolumeChart } from "@/components/analytics/call-volume-chart"
 import { ChartSkeleton } from "@/components/shared/loading-skeleton"
 import { EmptyState } from "@/components/shared/empty-state"
+import { FadeInUp } from "@/components/motion/fade-in-up"
 import type { Id } from "@/convex/_generated/dataModel"
 
 export default function AnalyticsPage() {
@@ -42,7 +43,6 @@ export default function AnalyticsPage() {
   const { leaderboard, volumeData } = useMemo(() => {
     if (!calls) return { leaderboard: [], volumeData: [] }
 
-    // Group calls by rep
     const repMap = new Map<string, { repId: Id<"users">; name: string; callCount: number; scores: number[] }>()
     for (const call of calls) {
       const key = call.repId as string
@@ -53,7 +53,6 @@ export default function AnalyticsPage() {
       row.callCount++
     }
 
-    // Attach scores from analyses
     if (allAnalyses) {
       for (const analysis of allAnalyses.filter((x): x is NonNullable<typeof x> => x !== null)) {
         const callMatch = calls.find((c) => c._id === analysis.callId)
@@ -85,27 +84,37 @@ export default function AnalyticsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader
-        title="Analytics"
-        description="Team-level performance trends and insights."
-      />
-      {isLoading ? (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {Array.from({ length: 4 }).map((_, i) => <ChartSkeleton key={i} />)}
-        </div>
-      ) : !hasData ? (
-        <EmptyState
-          icon={BarChart2}
-          title="No data yet"
-          description="Analytics will populate once calls are uploaded and analyzed."
+      <FadeInUp delay={0}>
+        <PageHeader
+          title="Analytics"
+          description="Team-level performance trends and insights."
         />
+      </FadeInUp>
+      {isLoading ? (
+        <FadeInUp delay={0.06}>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <ChartSkeleton key={i} />
+            ))}
+          </div>
+        </FadeInUp>
+      ) : !hasData ? (
+        <FadeInUp delay={0.06}>
+          <EmptyState
+            icon={BarChart2}
+            title="No data yet"
+            description="Analytics will populate once calls are uploaded and analyzed."
+          />
+        </FadeInUp>
       ) : (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <ScoreTrendChart data={scoreTrend} />
-          <ObjectionBarChart data={objectionData} />
-          <RepLeaderboard rows={leaderboard} />
-          <CallVolumeChart data={volumeData} />
-        </div>
+        <FadeInUp delay={0.06}>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <ScoreTrendChart data={scoreTrend} />
+            <ObjectionBarChart data={objectionData} />
+            <RepLeaderboard rows={leaderboard} />
+            <CallVolumeChart data={volumeData} />
+          </div>
+        </FadeInUp>
       )}
     </div>
   )

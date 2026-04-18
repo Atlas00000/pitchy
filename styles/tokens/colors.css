@@ -1,0 +1,33 @@
+/**
+ * Pitchly color tokens (UI-OVERHAUL.md — Week 1).
+ * Consumed by Tailwind @theme in globals.css and optional shadcn-bridge.css.
+ */
+:root {
+  /* Surfaces */
+  --pitchly-canvas: #ffffff;
+  --pitchly-surface: #f8fafc;
+  --pitchly-raised: #f1f5f9;
+  --pitchly-border: #e2e8f0;
+  --pitchly-border-strong: #cbd5e1;
+
+  /* Text */
+  --pitchly-text-primary: #0f172a;
+  --pitchly-text-secondary: #475569;
+  --pitchly-text-muted: #94a3b8;
+
+  /* Brand (Indigo) */
+  --pitchly-brand: #4f46e5;
+  --pitchly-brand-light: #eef2ff;
+  --pitchly-brand-muted: #818cf8;
+
+  /* Performance / score spectrum */
+  --pitchly-score-critical-from: #ef4444;
+  --pitchly-score-critical-to: #dc2626;
+  --pitchly-score-caution-from: #f59e0b;
+  --pitchly-score-caution-to: #d97706;
+  --pitchly-score-excellence-from: #10b981;
+  --pitchly-score-excellence-to: #059669;
+
+  /* Accent — max one prominent use per screen */
+  --pitchly-accent-amber: #f59e0b;
+}

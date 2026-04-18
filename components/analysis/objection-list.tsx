@@ -1,4 +1,5 @@
 import { ObjectionTag } from "./objection-tag"
+import { PitchlyCard } from "@/components/ui/pitchly-card"
 
 interface Objection {
   category: string
@@ -14,20 +15,21 @@ interface ObjectionListProps {
 export function ObjectionList({ objections }: ObjectionListProps) {
   if (objections.length === 0) {
     return (
-      <div className="rounded-md border p-4">
-        <h2 className="text-sm font-semibold mb-2">Objections</h2>
-        <p className="text-sm text-muted-foreground">No objections detected in this call.</p>
-      </div>
+      <PitchlyCard padding="default" className="flex flex-col gap-2">
+        <h2 className="text-xs font-medium uppercase tracking-widest text-pitchly-text-muted">Objections</h2>
+        <p className="text-sm text-pitchly-text-secondary">No objections detected in this call.</p>
+      </PitchlyCard>
     )
   }
 
-  // Sort by position in transcript
   const sorted = [...objections].sort((a, b) => a.position - b.position)
 
   return (
-    <div className="rounded-md border p-4 flex flex-col gap-3">
-      <h2 className="text-sm font-semibold">Objections ({objections.length})</h2>
-      <div className="flex flex-col gap-2">
+    <PitchlyCard padding="default" className="flex flex-col gap-4">
+      <h2 className="text-xs font-medium uppercase tracking-widest text-pitchly-text-muted">
+        Objections ({objections.length})
+      </h2>
+      <div className="flex flex-col gap-3">
         {sorted.map((obj, i) => (
           <ObjectionTag
             key={i}
@@ -37,6 +39,6 @@ export function ObjectionList({ objections }: ObjectionListProps) {
           />
         ))}
       </div>
-    </div>
+    </PitchlyCard>
   )
 }

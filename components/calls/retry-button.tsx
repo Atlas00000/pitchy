@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useAction } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { useToast } from "@/components/shared/toast"
+import { Button } from "@/components/ui/button"
 import type { Id } from "@/convex/_generated/dataModel"
 
 interface RetryButtonProps {
@@ -28,13 +29,8 @@ export function RetryButton({ callId }: RetryButtonProps) {
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleRetry}
-      disabled={retrying}
-      className="mt-2 self-start px-3 py-1.5 rounded-md bg-foreground text-background text-xs font-medium hover:opacity-90 transition disabled:opacity-40"
-    >
+    <Button type="button" size="sm" onClick={handleRetry} disabled={retrying} className="mt-2 self-start">
       {retrying ? "Retrying…" : "Retry analysis"}
-    </button>
+    </Button>
   )
 }

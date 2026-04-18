@@ -11,6 +11,7 @@ import { ObjectionList } from "@/components/analysis/objection-list"
 import { CoachingNotesList } from "@/components/analysis/coaching-notes-list"
 import { AnalyzedWithBadge } from "@/components/analysis/analyzed-with-badge"
 import { RetryButton } from "@/components/calls/retry-button"
+import { FadeInUp } from "@/components/motion/fade-in-up"
 import { useToast } from "@/components/shared/toast"
 import { DEAL_STAGES } from "@/lib/constants"
 import type { Id } from "@/convex/_generated/dataModel"
@@ -39,69 +40,86 @@ function CallDetailContent({ callId }: { callId: Id<"calls"> }) {
   }, [call?.status, call, showToast])
 
   if (call === undefined) {
-    return <p className="text-sm text-muted-foreground">Loading…</p>
+    return <p className="text-sm text-pitchly-text-muted">Loading…</p>
   }
 
   if (call === null) {
-    return <p className="text-sm text-red-500">Call not found.</p>
+    return <p className="text-sm font-medium text-pitchly-score-critical">Call not found.</p>
   }
 
   const objections = analysis?.objections ?? []
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-xl font-semibold">{call.prospectCompany}</h1>
-          <p className="text-sm text-muted-foreground">
-            {call.repName} · {call.callDate} · {DEAL_STAGES[call.dealStage]}
+      <FadeInUp delay={0}>
+        <div className="flex items-start justify-between gap-4 border-b border-pitchly-border pb-6">
+          <div className="flex min-w-0 flex-col gap-1">
+            <h1 className="text-xl font-semibold tracking-tight text-pitchly-text-primary">
+              {call.prospectCompany}
+            </h1>
+            <p className="text-sm text-pitchly-text-secondary">
+              {call.repName} · <span className="font-mono text-pitchly-text-muted">{call.callDate}</span> ·{" "}
+              {DEAL_STAGES[call.dealStage]}
+            </p>
+            {analysis && (
+              <div className="mt-1">
+                <AnalyzedWithBadge
+                  analyzedWith={analysis.analyzedWith}
+                  promptVersion={analysis.promptVersion}
+                />
+              </div>
+            )}
+          </div>
+          <StatusBadge status={call.status} />
+        </div>
+      </FadeInUp>
+
+      {call.status === "analyzing" && (
+        <FadeInUp delay={0.04}>
+          <p className="rounded-md border border-pitchly-border-strong bg-pitchly-surface px-3 py-2 text-sm text-pitchly-text-secondary shadow-pitchly-raised">
+            AI analysis in progress — this page updates automatically when complete.
           </p>
-          {analysis && (
-            <div className="mt-1">
-              <AnalyzedWithBadge
+        </FadeInUp>
+      )}
+      {call.status === "failed" && (
+        <FadeInUp delay={0.04}>
+          <div className="flex flex-col gap-2 rounded-md border border-pitchly-score-critical/35 bg-pitchly-surface px-3 py-3 shadow-pitchly-raised">
+            <p className="text-sm font-medium text-pitchly-score-critical">
+              Analysis failed{call.errorMessage ? `: ${call.errorMessage}` : "."}
+            </p>
+            <RetryButton callId={callId} />
+          </div>
+        </FadeInUp>
+      )}
+
+      <FadeInUp delay={0.08}>
+        <div className="flex flex-col gap-2">
+          <h2 className="text-xs font-medium uppercase tracking-widest text-pitchly-text-muted">Transcript</h2>
+          <TranscriptViewer text={call.transcriptText} objections={objections} />
+        </div>
+      </FadeInUp>
+
+      {analysis && (
+        <FadeInUp delay={0.12}>
+          <div className="flex flex-col gap-4">
+            <FadeInUp delay={0}>
+              <AnalysisSummaryCard
+                summary={analysis.summary}
                 analyzedWith={analysis.analyzedWith}
                 promptVersion={analysis.promptVersion}
               />
-            </div>
-          )}
-        </div>
-        <StatusBadge status={call.status} />
-      </div>
-
-      {/* Analysis status messages */}
-      {call.status === "analyzing" && (
-        <p className="text-sm text-muted-foreground border rounded-md px-3 py-2 bg-muted/40">
-          AI analysis in progress — this page updates automatically when complete.
-        </p>
-      )}
-      {call.status === "failed" && (
-        <div className="flex flex-col gap-2 border border-red-200 rounded-md px-3 py-2 bg-red-50">
-          <p className="text-sm text-red-500">
-            Analysis failed{call.errorMessage ? `: ${call.errorMessage}` : "."}
-          </p>
-          <RetryButton callId={callId} />
-        </div>
-      )}
-
-      {/* Transcript */}
-      <div className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold">Transcript</h2>
-        <TranscriptViewer text={call.transcriptText} objections={objections} />
-      </div>
-
-      {/* Analysis panels */}
-      {analysis && (
-        <div className="flex flex-col gap-4">
-          <AnalysisSummaryCard
-            summary={analysis.summary}
-            analyzedWith={analysis.analyzedWith}
-            promptVersion={analysis.promptVersion}
-          />
-          <ScoreCard scores={analysis.scores} />
-          <ObjectionList objections={analysis.objections} />
-          <CoachingNotesList notes={analysis.coachingNotes} />
-        </div>
+            </FadeInUp>
+            <FadeInUp delay={0.06}>
+              <ScoreCard scores={analysis.scores} />
+            </FadeInUp>
+            <FadeInUp delay={0.12}>
+              <ObjectionList objections={analysis.objections} />
+            </FadeInUp>
+            <FadeInUp delay={0.18}>
+              <CoachingNotesList notes={analysis.coachingNotes} />
+            </FadeInUp>
+          </div>
+        </FadeInUp>
       )}
     </div>
   )

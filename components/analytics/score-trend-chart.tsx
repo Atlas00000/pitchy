@@ -1,6 +1,8 @@
 "use client"
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { AnalyticsChartCard } from "@/components/analytics/analytics-chart-card"
+import { CHART } from "@/components/analytics/chart-theme"
 
 interface DataPoint {
   date: string
@@ -14,35 +16,39 @@ interface ScoreTrendChartProps {
 export function ScoreTrendChart({ data }: ScoreTrendChartProps) {
   if (data.length === 0) {
     return (
-      <div className="rounded-md border p-4">
-        <h2 className="text-sm font-semibold mb-3">Score Trend</h2>
-        <p className="text-sm text-muted-foreground">No analyzed calls yet.</p>
-      </div>
+      <AnalyticsChartCard title="Score trend">
+        <p className="text-sm text-pitchly-text-secondary">No analyzed calls yet.</p>
+      </AnalyticsChartCard>
     )
   }
 
   return (
-    <div className="rounded-md border p-4 flex flex-col gap-3">
-      <h2 className="text-sm font-semibold">Score Trend</h2>
+    <AnalyticsChartCard title="Score trend">
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-          <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-          <YAxis domain={[0, 10]} tick={{ fontSize: 11 }} />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
+          <XAxis dataKey="date" tick={{ fontSize: 11, fill: CHART.axis }} />
+          <YAxis domain={[0, 10]} tick={{ fontSize: 11, fill: CHART.axis }} />
           <Tooltip
-            contentStyle={{ fontSize: 12 }}
+            contentStyle={{
+              fontSize: 12,
+              backgroundColor: CHART.tooltipBg,
+              border: `1px solid ${CHART.tooltipBorder}`,
+              borderRadius: 8,
+              color: CHART.tooltipLabel,
+            }}
             formatter={(v) => [Number(v).toFixed(1), "Score"]}
           />
           <Line
             type="monotone"
             dataKey="score"
-            stroke="hsl(var(--foreground))"
+            stroke={CHART.brand}
             strokeWidth={2}
-            dot={{ r: 3 }}
-            activeDot={{ r: 5 }}
+            dot={{ r: 3, fill: CHART.brand }}
+            activeDot={{ r: 5, fill: CHART.brandMuted }}
           />
         </LineChart>
       </ResponsiveContainer>
-    </div>
+    </AnalyticsChartCard>
   )
 }

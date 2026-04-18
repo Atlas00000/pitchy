@@ -1,9 +1,30 @@
-const CATEGORY_STYLES: Record<string, string> = {
-  price: "bg-red-100 text-red-800",
-  timing: "bg-yellow-100 text-yellow-800",
-  authority: "bg-purple-100 text-purple-800",
-  need: "bg-blue-100 text-blue-800",
-  other: "bg-muted text-muted-foreground",
+import { cn } from "@/lib/utils"
+
+const CATEGORY_STYLES: Record<string, { chip: string; accent: string }> = {
+  price: {
+    chip: "border border-pitchly-score-critical/35 bg-pitchly-surface text-pitchly-score-critical",
+    accent: "border-l-pitchly-score-critical",
+  },
+  timing: {
+    chip: "border border-pitchly-score-caution/35 bg-pitchly-surface text-pitchly-score-caution",
+    accent: "border-l-pitchly-score-caution",
+  },
+  authority: {
+    chip: "border border-pitchly-brand-muted/40 bg-pitchly-brand-light text-pitchly-brand",
+    accent: "border-l-pitchly-brand",
+  },
+  need: {
+    chip: "border border-pitchly-border-strong bg-pitchly-surface text-pitchly-text-secondary",
+    accent: "border-l-pitchly-text-muted",
+  },
+  competitor: {
+    chip: "border border-pitchly-brand-muted/40 bg-pitchly-surface text-pitchly-brand-muted",
+    accent: "border-l-pitchly-brand-muted",
+  },
+  other: {
+    chip: "border border-pitchly-border bg-pitchly-surface text-pitchly-text-muted",
+    accent: "border-l-pitchly-border-strong",
+  },
 }
 
 interface ObjectionTagProps {
@@ -13,20 +34,27 @@ interface ObjectionTagProps {
 }
 
 export function ObjectionTag({ category, quote, suggestedResponse }: ObjectionTagProps) {
-  const style = CATEGORY_STYLES[category] ?? CATEGORY_STYLES.other
+  const styles = CATEGORY_STYLES[category] ?? CATEGORY_STYLES.other
 
   return (
-    <div className="flex flex-col gap-1.5 rounded-md border p-3">
+    <div
+      className={cn(
+        "flex flex-col gap-2 rounded-lg border border-pitchly-border border-l-4 bg-pitchly-surface/50 p-4 transition-colors duration-150 hover:bg-pitchly-surface",
+        styles.accent
+      )}
+    >
       <div className="flex items-center gap-2">
-        <span className={`text-xs font-semibold rounded px-2 py-0.5 capitalize ${style}`}>
+        <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize", styles.chip)}>
           {category}
         </span>
       </div>
-      <p className="text-sm text-muted-foreground italic">"{quote}"</p>
+      <p className="text-sm italic leading-relaxed text-pitchly-text-secondary">&ldquo;{quote}&rdquo;</p>
       {suggestedResponse && (
-        <div className="mt-1 border-l-2 border-muted pl-3">
-          <p className="text-xs font-medium text-foreground mb-0.5">Suggested response</p>
-          <p className="text-xs text-muted-foreground">{suggestedResponse}</p>
+        <div className="mt-1 border-l-2 border-pitchly-border-strong pl-3">
+          <p className="mb-0.5 text-xs font-semibold uppercase tracking-wide text-pitchly-text-muted">
+            Suggested response
+          </p>
+          <p className="text-xs leading-relaxed text-pitchly-text-secondary">{suggestedResponse}</p>
         </div>
       )}
     </div>

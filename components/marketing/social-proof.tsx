@@ -6,7 +6,7 @@ const TESTIMONIALS = [
     role: "VP of Sales",
     company: "Reachify",
     initials: "SC",
-    color: "bg-indigo-100 text-indigo-700",
+    avatarClass: "bg-pitchly-brand-light text-pitchly-brand",
   },
   {
     quote:
@@ -15,7 +15,7 @@ const TESTIMONIALS = [
     role: "Sales Manager",
     company: "Stackform",
     initials: "MD",
-    color: "bg-slate-100 text-slate-600",
+    avatarClass: "bg-pitchly-raised text-pitchly-text-secondary",
   },
   {
     quote:
@@ -24,60 +24,55 @@ const TESTIMONIALS = [
     role: "Director of Revenue",
     company: "Cloudbase",
     initials: "PN",
-    color: "bg-emerald-100 text-emerald-700",
+    avatarClass: "bg-pitchly-brand-light/80 text-pitchly-score-excellence",
   },
-]
+] as const
 
 const STATS = [
   { value: "10×", label: "More calls reviewed per manager" },
   { value: "<30s", label: "Time to full analysis" },
   { value: "94%", label: "Reps say feedback is actionable" },
-]
+] as const
 
 export function SocialProof() {
   return (
-    <section className="bg-white py-24">
+    <section className="bg-pitchly-canvas py-24">
       <div className="mx-auto max-w-6xl px-6">
-        {/* Stats strip */}
-        <div className="mb-20 grid grid-cols-3 gap-8 rounded-2xl border border-slate-100 bg-slate-50 px-8 py-10">
+        <div className="mb-20 grid grid-cols-3 gap-8 rounded-xl border border-pitchly-border bg-pitchly-surface px-8 py-10 shadow-pitchly-raised">
           {STATS.map(({ value, label }) => (
             <div key={label} className="text-center">
-              <p className="font-mono text-4xl font-bold text-slate-900">{value}</p>
-              <p className="mt-1.5 text-sm text-slate-500">{label}</p>
+              <p className="font-mono text-4xl font-bold text-pitchly-text-primary">{value}</p>
+              <p className="mt-1.5 text-sm text-pitchly-text-secondary">{label}</p>
             </div>
           ))}
         </div>
 
-        {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-indigo-600">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-pitchly-brand">
             What people are saying
           </p>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-pitchly-text-primary sm:text-4xl">
             Loved by sales managers and reps alike
           </h2>
         </div>
 
-        {/* Testimonials */}
         <div className="mt-14 grid gap-6 sm:grid-cols-3">
-          {TESTIMONIALS.map(({ quote, name, role, company, initials, color }) => (
+          {TESTIMONIALS.map(({ quote, name, role, company, initials, avatarClass }) => (
             <div
               key={name}
-              className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-7 shadow-sm"
+              className="flex flex-col justify-between rounded-xl border border-pitchly-border bg-pitchly-canvas p-7 shadow-pitchly-raised transition-shadow duration-150 hover:shadow-pitchly-floating"
             >
-              {/* Quote */}
-              <p className="text-sm leading-relaxed text-slate-600">"{quote}"</p>
+              <p className="text-sm leading-relaxed text-pitchly-text-secondary">&ldquo;{quote}&rdquo;</p>
 
-              {/* Author */}
               <div className="mt-6 flex items-center gap-3">
                 <div
-                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold ${color}`}
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold ${avatarClass}`}
                 >
                   {initials}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-900">{name}</p>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-sm font-semibold text-pitchly-text-primary">{name}</p>
+                  <p className="text-xs text-pitchly-text-muted">
                     {role} · {company}
                   </p>
                 </div>

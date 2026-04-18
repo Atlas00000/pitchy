@@ -1,6 +1,7 @@
 import Link from "next/link"
-import { formatDate, formatScore, scoreToTailwind } from "@/lib/utils"
+import { cn, formatDate } from "@/lib/utils"
 import { StatusBadge } from "@/components/shared/status-badge"
+import { CallScorePill } from "@/components/calls/call-score-pill"
 import type { Doc } from "@/convex/_generated/dataModel"
 
 interface CallCardProps {
@@ -12,18 +13,21 @@ export function CallCard({ call, score }: CallCardProps) {
   return (
     <Link
       href={`/calls/${call._id}`}
-      className="flex items-center gap-4 py-3 px-4 rounded-lg hover:bg-muted/50 transition-colors border-b last:border-0 group"
+      className={cn(
+        "group flex items-center gap-4 border-b border-pitchly-border px-4 py-3 transition-colors duration-150 ease-out last:border-b-0",
+        "even:bg-pitchly-surface/50 hover:bg-pitchly-surface"
+      )}
     >
-      <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate">{call.prospectCompany}</p>
-        <p className="text-xs text-muted-foreground">{call.repName} · {formatDate(call.callDate)}</p>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-semibold text-pitchly-text-primary">{call.prospectCompany}</p>
+        <p className="text-xs text-pitchly-text-muted">
+          <span className="text-pitchly-text-secondary">{call.repName}</span>
+          <span className="text-pitchly-text-muted"> · </span>
+          <span className="font-mono text-pitchly-text-secondary">{formatDate(call.callDate)}</span>
+        </p>
       </div>
-      <div className="flex items-center gap-3 shrink-0">
-        {score !== undefined && (
-          <span className={`text-sm font-semibold ${scoreToTailwind(score)}`}>
-            {formatScore(score)}
-          </span>
-        )}
+      <div className="flex shrink-0 items-center gap-3">
+        {score !== undefined && <CallScorePill score={score} />}
         <StatusBadge status={call.status} />
       </div>
     </Link>

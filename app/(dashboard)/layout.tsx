@@ -8,6 +8,7 @@ import { Topbar } from "@/components/layout/topbar"
 import { ToastProvider } from "@/components/shared/toast"
 import { ErrorBoundary } from "@/components/shared/error-boundary"
 import { UserProvider } from "@/components/providers/user-provider"
+import { PageCrossFade } from "@/components/motion/page-cross-fade"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { userId } = await auth()
@@ -19,8 +20,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <Sidebar />
           <div className="flex flex-col flex-1 min-w-0">
             <Topbar />
-            <main className="flex-1 p-6 overflow-auto">
-              <ErrorBoundary>{children}</ErrorBoundary>
+            <main className="flex-1 overflow-auto bg-pitchly-canvas p-6">
+              <ErrorBoundary>
+                <PageCrossFade>{children}</PageCrossFade>
+              </ErrorBoundary>
             </main>
           </div>
         </div>

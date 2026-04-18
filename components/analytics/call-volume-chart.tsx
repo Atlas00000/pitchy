@@ -1,6 +1,8 @@
 "use client"
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { AnalyticsChartCard } from "@/components/analytics/analytics-chart-card"
+import { CHART } from "@/components/analytics/chart-theme"
 
 interface DataPoint {
   name: string
@@ -14,25 +16,32 @@ interface CallVolumeChartProps {
 export function CallVolumeChart({ data }: CallVolumeChartProps) {
   if (data.length === 0) {
     return (
-      <div className="rounded-md border p-4">
-        <h2 className="text-sm font-semibold mb-3">Call Volume by Rep</h2>
-        <p className="text-sm text-muted-foreground">No calls yet.</p>
-      </div>
+      <AnalyticsChartCard title="Call volume by rep">
+        <p className="text-sm text-pitchly-text-secondary">No calls yet.</p>
+      </AnalyticsChartCard>
     )
   }
 
   return (
-    <div className="rounded-md border p-4 flex flex-col gap-3">
-      <h2 className="text-sm font-semibold">Call Volume by Rep</h2>
+    <AnalyticsChartCard title="Call volume by rep">
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-          <XAxis dataKey="name" tick={{ fontSize: 11 }} />
-          <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
-          <Tooltip contentStyle={{ fontSize: 12 }} formatter={(v) => [Number(v), "Calls"]} />
-          <Bar dataKey="calls" fill="hsl(var(--foreground))" radius={[4, 4, 0, 0]} />
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
+          <XAxis dataKey="name" tick={{ fontSize: 11, fill: CHART.axis }} />
+          <YAxis tick={{ fontSize: 11, fill: CHART.axis }} allowDecimals={false} />
+          <Tooltip
+            contentStyle={{
+              fontSize: 12,
+              backgroundColor: CHART.tooltipBg,
+              border: `1px solid ${CHART.tooltipBorder}`,
+              borderRadius: 8,
+              color: CHART.tooltipLabel,
+            }}
+            formatter={(v) => [Number(v), "Calls"]}
+          />
+          <Bar dataKey="calls" fill={CHART.brandMuted} radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
-    </div>
+    </AnalyticsChartCard>
   )
 }

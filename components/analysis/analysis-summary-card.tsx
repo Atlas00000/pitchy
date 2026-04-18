@@ -1,4 +1,4 @@
-"use client"
+import { PitchlyCard } from "@/components/ui/pitchly-card"
 
 interface AnalysisSummaryCardProps {
   summary: string
@@ -13,14 +13,14 @@ const PROVIDER_LABEL: Record<"gemini" | "claude", string> = {
 
 export function AnalysisSummaryCard({ summary, analyzedWith, promptVersion }: AnalysisSummaryCardProps) {
   return (
-    <div className="rounded-md border p-4 flex flex-col gap-3">
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold">Summary</h2>
-        <span className="text-xs text-muted-foreground border rounded px-2 py-0.5">
+    <PitchlyCard accent="excellence" padding="lg" className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <h2 className="text-xs font-medium uppercase tracking-widest text-pitchly-text-muted">Summary</h2>
+        <span className="shrink-0 rounded-full border border-pitchly-border bg-pitchly-surface px-2.5 py-1 text-xs font-medium text-pitchly-text-secondary">
           {PROVIDER_LABEL[analyzedWith]} · {promptVersion}
         </span>
       </div>
-      <p className="text-sm text-muted-foreground leading-relaxed">{summary}</p>
-    </div>
+      <p className="text-sm leading-relaxed text-pitchly-text-secondary">{summary}</p>
+    </PitchlyCard>
   )
 }

@@ -1,0 +1,41 @@
+/**
+ * Maps shadcn semantic tokens to Pitchly palette (light theme).
+ * Import after colors.css so --pitchly-* exist.
+ */
+:root {
+  --radius: 0.625rem;
+  --background: var(--pitchly-canvas);
+  --foreground: var(--pitchly-text-primary);
+  --card: var(--pitchly-surface);
+  --card-foreground: var(--pitchly-text-primary);
+  --popover: var(--pitchly-canvas);
+  --popover-foreground: var(--pitchly-text-primary);
+  --primary: var(--pitchly-brand);
+  --primary-foreground: #ffffff;
+  --secondary: var(--pitchly-raised);
+  --secondary-foreground: var(--pitchly-text-primary);
+  --muted: var(--pitchly-surface);
+  --muted-foreground: var(--pitchly-text-muted);
+  --accent: var(--pitchly-brand-light);
+  --accent-foreground: var(--pitchly-brand);
+  --destructive: var(--pitchly-score-critical-from);
+  --destructive-foreground: #ffffff;
+  --border: var(--pitchly-border);
+  --input: var(--pitchly-border-strong);
+  --ring: var(--pitchly-brand);
+  /* Charts — score / performance spectrum */
+  --chart-1: var(--pitchly-score-excellence-from);
+  --chart-2: var(--pitchly-score-caution-from);
+  --chart-3: var(--pitchly-score-critical-from);
+  --chart-4: var(--pitchly-brand-muted);
+  --chart-5: var(--pitchly-text-secondary);
+  /* Sidebar — aligned with shell spec */
+  --sidebar: var(--pitchly-surface);
+  --sidebar-foreground: var(--pitchly-text-primary);
+  --sidebar-primary: var(--pitchly-brand);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--pitchly-brand-light);
+  --sidebar-accent-foreground: var(--pitchly-brand);
+  --sidebar-border: var(--pitchly-border);
+  --sidebar-ring: var(--pitchly-brand);
+}

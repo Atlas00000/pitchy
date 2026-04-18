@@ -1,4 +1,6 @@
 import Link from "next/link"
+import { CallScorePill } from "@/components/calls/call-score-pill"
+import { cn } from "@/lib/utils"
 import type { Id } from "@/convex/_generated/dataModel"
 
 interface RepCardProps {
@@ -9,38 +11,35 @@ interface RepCardProps {
   avgScore: number | null
 }
 
-function scoreColor(score: number): string {
-  if (score <= 4) return "text-red-600"
-  if (score <= 6) return "text-yellow-600"
-  return "text-green-600"
-}
-
 export function RepCard({ repId, name, totalCalls, completedCalls, avgScore }: RepCardProps) {
   return (
     <Link
       href={`/reps/${repId}`}
-      className="flex items-center justify-between rounded-md border px-4 py-3 hover:bg-muted/50 transition-colors"
+      className={cn(
+        "flex items-center justify-between rounded-xl border border-pitchly-border bg-pitchly-canvas px-4 py-3 shadow-pitchly-raised transition-all duration-150 ease-out",
+        "hover:-translate-y-0.5 hover:bg-pitchly-surface hover:shadow-pitchly-floating"
+      )}
     >
       <div className="flex flex-col gap-0.5">
-        <span className="text-sm font-medium">{name}</span>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-sm font-semibold text-pitchly-text-primary">{name}</span>
+        <span className="text-xs text-pitchly-text-secondary">
           {completedCalls} of {totalCalls} calls analyzed
         </span>
       </div>
       <div className="flex items-center gap-6 text-sm">
         <div className="flex flex-col items-end gap-0.5">
-          <span className="font-medium tabular-nums">{totalCalls}</span>
-          <span className="text-xs text-muted-foreground">Calls</span>
+          <span className="font-mono text-base font-semibold tabular-nums text-pitchly-text-primary">
+            {totalCalls}
+          </span>
+          <span className="text-xs font-medium uppercase tracking-wide text-pitchly-text-muted">Calls</span>
         </div>
         <div className="flex flex-col items-end gap-0.5">
           {avgScore !== null ? (
-            <span className={`font-semibold tabular-nums ${scoreColor(avgScore)}`}>
-              {avgScore.toFixed(1)}
-            </span>
+            <CallScorePill score={avgScore} />
           ) : (
-            <span className="text-muted-foreground">—</span>
+            <span className="font-mono text-sm text-pitchly-text-muted">—</span>
           )}
-          <span className="text-xs text-muted-foreground">Avg</span>
+          <span className="text-xs font-medium uppercase tracking-wide text-pitchly-text-muted">Avg</span>
         </div>
       </div>
     </Link>

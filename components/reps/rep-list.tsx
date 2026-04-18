@@ -1,7 +1,9 @@
 "use client"
 
 import { useMemo } from "react"
+import { useQuery } from "convex/react"
 import { Users } from "lucide-react"
+import { api } from "@/convex/_generated/api"
 import { useCalls } from "@/hooks/use-calls"
 import { RepCard } from "./rep-card"
 import { EmptyState } from "@/components/shared/empty-state"
@@ -18,6 +20,7 @@ interface RepRow {
 
 export function RepList() {
   const calls = useCalls()
+  const allAnalyses = useQuery(api.analysis.getAllAnalyses)
 
   const reps = useMemo<RepRow[]>(() => {
     if (!calls) return []
@@ -39,13 +42,35 @@ export function RepList() {
       if (call.status === "complete") row.completedCalls++
     }
 
-    return [...map.values()].sort((a, b) => b.totalCalls - a.totalCalls)
-  }, [calls])
+    const scoresByRep = new Map<string, number[]>()
+    if (allAnalyses) {
+      for (const a of allAnalyses) {
+        if (!a) continue
+        const call = calls.find((c) => c._id === a.callId)
+        if (!call) continue
+        const key = call.repId as string
+        const list = scoresByRep.get(key) ?? []
+        list.push(a.scores.overall)
+        scoresByRep.set(key, list)
+      }
+    }
 
-  if (calls === undefined) {
+    for (const row of map.values()) {
+      const scores = scoresByRep.get(row.repId as string)
+      if (scores && scores.length > 0) {
+        row.avgScore = scores.reduce((s, x) => s + x, 0) / scores.length
+      }
+    }
+
+    return [...map.values()].sort((a, b) => b.totalCalls - a.totalCalls)
+  }, [calls, allAnalyses])
+
+  if (calls === undefined || allAnalyses === undefined) {
     return (
-      <div className="flex flex-col gap-2">
-        {Array.from({ length: 4 }).map((_, i) => <RepCardSkeleton key={i} />)}
+      <div className="flex flex-col gap-3">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <RepCardSkeleton key={i} />
+        ))}
       </div>
     )
   }
@@ -61,7 +86,7 @@ export function RepList() {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       {reps.map((rep) => (
         <RepCard key={rep.repId} {...rep} />
       ))}

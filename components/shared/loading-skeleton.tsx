@@ -4,13 +4,14 @@ interface SkeletonProps {
   className?: string
 }
 
+/** Base block with Pitchly shimmer (see `styles/tokens/skeleton-motion.css`). */
 export function Skeleton({ className }: SkeletonProps) {
-  return <div className={cn("animate-pulse rounded-md bg-muted", className)} />
+  return <div className={cn("pitchly-skeleton-shimmer rounded-md", className)} />
 }
 
 export function CardSkeleton() {
   return (
-    <div className="rounded-xl border p-5 space-y-3">
+    <div className="space-y-3 rounded-xl border border-pitchly-border bg-card p-5 shadow-pitchly-raised">
       <Skeleton className="h-4 w-24" />
       <Skeleton className="h-8 w-16" />
       <Skeleton className="h-3 w-32" />
@@ -20,17 +21,17 @@ export function CardSkeleton() {
 
 export function RowSkeleton() {
   return (
-    <div className="flex items-center gap-4 py-3 border-b last:border-0">
+    <div className="flex items-center gap-4 border-b border-pitchly-border py-3 last:border-0">
       <Skeleton className="h-4 w-32" />
       <Skeleton className="h-4 w-20" />
-      <Skeleton className="h-4 w-16 ml-auto" />
+      <Skeleton className="ml-auto h-4 w-16" />
     </div>
   )
 }
 
 export function RepCardSkeleton() {
   return (
-    <div className="rounded-xl border p-4 flex items-center justify-between gap-4">
+    <div className="flex items-center justify-between gap-4 rounded-xl border border-pitchly-border bg-card p-4 shadow-pitchly-raised">
       <div className="space-y-2">
         <Skeleton className="h-4 w-28" />
         <Skeleton className="h-3 w-20" />
@@ -42,7 +43,7 @@ export function RepCardSkeleton() {
 
 export function ChartSkeleton() {
   return (
-    <div className="rounded-xl border p-5 space-y-3">
+    <div className="space-y-3 rounded-xl border border-pitchly-border bg-card p-5 shadow-pitchly-raised">
       <Skeleton className="h-4 w-32" />
       <Skeleton className="h-[180px] w-full rounded-md" />
     </div>
