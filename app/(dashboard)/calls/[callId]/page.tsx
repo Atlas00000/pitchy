@@ -3,12 +3,11 @@
 import { use, useEffect, useRef } from "react"
 import { useCall } from "@/hooks/use-calls"
 import { useAnalysis } from "@/hooks/use-analysis"
-import { TranscriptViewer } from "@/components/calls/transcript-viewer"
 import { StatusBadge } from "@/components/shared/status-badge"
-import { AnalysisSummaryCard } from "@/components/analysis/analysis-summary-card"
-import { ScoreCard } from "@/components/analysis/score-card"
-import { ObjectionList } from "@/components/analysis/objection-list"
-import { CoachingNotesList } from "@/components/analysis/coaching-notes-list"
+import { TranscriptRecordPanel } from "@/components/calls/call-record/transcript-record-panel"
+import { SummaryRecordPanel } from "@/components/calls/call-record/summary-record-panel"
+import { ScoreRecordPanel } from "@/components/calls/call-record/score-record-panel"
+import { CallAnalysisInsights } from "@/components/calls/call-insights/call-analysis-insights"
 import { AnalyzedWithBadge } from "@/components/analysis/analyzed-with-badge"
 import { RetryButton } from "@/components/calls/retry-button"
 import { FadeInUp } from "@/components/motion/fade-in-up"
@@ -93,30 +92,24 @@ function CallDetailContent({ callId }: { callId: Id<"calls"> }) {
       )}
 
       <FadeInUp delay={0.08}>
-        <div className="flex flex-col gap-2">
-          <h2 className="text-xs font-medium uppercase tracking-widest text-pitchly-text-muted">Transcript</h2>
-          <TranscriptViewer text={call.transcriptText} objections={objections} />
-        </div>
+        <TranscriptRecordPanel text={call.transcriptText} objections={objections} />
       </FadeInUp>
 
       {analysis && (
         <FadeInUp delay={0.12}>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-5 md:gap-6">
             <FadeInUp delay={0}>
-              <AnalysisSummaryCard
+              <SummaryRecordPanel
                 summary={analysis.summary}
                 analyzedWith={analysis.analyzedWith}
                 promptVersion={analysis.promptVersion}
               />
             </FadeInUp>
             <FadeInUp delay={0.06}>
-              <ScoreCard scores={analysis.scores} />
+              <ScoreRecordPanel scores={analysis.scores} />
             </FadeInUp>
             <FadeInUp delay={0.12}>
-              <ObjectionList objections={analysis.objections} />
-            </FadeInUp>
-            <FadeInUp delay={0.18}>
-              <CoachingNotesList notes={analysis.coachingNotes} />
+              <CallAnalysisInsights objections={analysis.objections} coachingNotes={analysis.coachingNotes} />
             </FadeInUp>
           </div>
         </FadeInUp>
