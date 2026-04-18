@@ -23,7 +23,8 @@ export function SocialProofIntro() {
       </p>
 
       <p className="mt-6 max-w-sm text-left text-sm font-medium leading-relaxed text-pitchly-text-muted">
-        Hover the metrics to feel the stack breathe. Use the quote rail to swap stories without losing context.
+        Stats echo product throughput and SLA; quotes tie to objection tagging, rubric scores, and coaching-note depth —
+        the same story the call report tells.
       </p>
 
       <div className="mt-10 hidden h-px w-28 bg-gradient-to-r from-pitchly-brand via-pitchly-score-excellence/70 to-transparent lg:block" />

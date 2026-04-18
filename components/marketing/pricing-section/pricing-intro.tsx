@@ -23,7 +23,8 @@ export function PricingIntro() {
       </p>
 
       <p className="mt-6 max-w-sm text-left text-sm font-medium leading-relaxed text-pitchly-text-muted">
-        Hover either lane to spotlight it. Click a card to pin while you compare. Arrow keys work when the tier panel is focused.
+        Free caps monthly calls and ships on Gemini Flash; Pro removes volume limits, adds team analytics, BYO Claude/GPT
+        keys, manager + rep roles, and priority support — same app shell, different throughput.
       </p>
 
       <div className="mt-10 hidden h-px w-32 bg-gradient-to-r from-pitchly-brand to-pitchly-brand-muted/40 to-transparent lg:block" />

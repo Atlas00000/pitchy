@@ -8,7 +8,15 @@ export function useTeamAnalytics() {
   const calls = useCalls()
 
   return useMemo(() => {
-    if (!calls) return { isLoading: true, totalCalls: 0, avgScore: 0, topObjection: null, topRep: null }
+    if (!calls)
+      return {
+        isLoading: true,
+        totalCalls: 0,
+        completedCalls: 0,
+        avgScore: 0,
+        topObjection: null,
+        topRep: null,
+      }
 
     const completedCalls = calls.filter((c) => c.status === "complete")
     const totalCalls = calls.length

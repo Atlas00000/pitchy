@@ -11,7 +11,7 @@ interface PageCrossFadeProps {
 }
 
 /**
- * Route segment transitions: fade + slight vertical shift (UI-OVERHAUL Week 8).
+ * Route segment transitions: fade + slight vertical shift (docs/UI-OVERHAUL Week 8).
  * Wrap the slot that swaps on navigation (e.g. `main` children).
  */
 export function PageCrossFade({ children, className }: PageCrossFadeProps) {

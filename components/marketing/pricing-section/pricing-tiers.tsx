@@ -161,7 +161,7 @@ export function PricingTiers() {
       className="relative rounded-[2rem] outline-none focus-visible:ring-2 focus-visible:ring-pitchly-brand/35 focus-visible:ring-offset-4 focus-visible:ring-offset-pitchly-surface lg:col-span-7"
       tabIndex={0}
       role="region"
-      aria-label="Pricing tiers. Hover to spotlight. Click a card to pin. Arrow keys toggle tiers when this panel is focused."
+      aria-label="Pitchly Free vs Pro: call volume, models, analytics, and support. Arrow keys switch tiers when focused."
       onKeyDown={onKeyDown}
       onPointerLeave={() => setHover(null)}
       onBlurCapture={(e) => {
@@ -172,7 +172,7 @@ export function PricingTiers() {
       }}
     >
       <p className="mb-5 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-pitchly-text-muted lg:text-right">
-        Asymmetric lanes · hover spotlight · click to pin
+        Free vs Pro — call caps, models, analytics depth, and support mapped to what you ship today
       </p>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch lg:gap-5">

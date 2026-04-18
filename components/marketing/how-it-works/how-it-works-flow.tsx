@@ -168,7 +168,7 @@ export function HowItWorksFlow() {
       className="relative rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-pitchly-brand/35 focus-visible:ring-offset-4 focus-visible:ring-offset-pitchly-canvas lg:col-span-7"
       tabIndex={0}
       role="region"
-      aria-label="Workflow steps. Focus this panel, then use arrow keys to change the active step. Hover or click a step to explore."
+      aria-label="Pitchly workflow: ingest, structured analysis, and coaching. Arrow keys change the active step when focused."
       onKeyDown={onKeyDown}
       onPointerLeave={() => setHover(null)}
       onBlurCapture={(e) => {
@@ -179,7 +179,7 @@ export function HowItWorksFlow() {
       }}
     >
       <p className="mb-4 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-pitchly-text-muted lg:text-right">
-        Pipeline trace · hover, click to pin, or arrows while focused
+        Upload → single-pass AI → coach — each lane matches what ships in-product
       </p>
 
       <div className="flex flex-col gap-2 md:gap-3">

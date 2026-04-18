@@ -1,5 +1,5 @@
 /**
- * Motion timing aligned with UI-OVERHAUL.md (Week 8).
+ * Motion timing aligned with docs/UI-OVERHAUL.md (Week 8).
  * Content reveal ~300ms ease-out; route exit ~150ms.
  */
 export const motionEaseOut = [0.33, 1, 0.68, 1] as const

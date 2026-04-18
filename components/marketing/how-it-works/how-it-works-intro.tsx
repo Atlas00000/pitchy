@@ -24,7 +24,9 @@ export function HowItWorksIntro() {
       </p>
 
       <p className="mt-6 max-w-sm text-left text-sm font-medium leading-relaxed text-pitchly-text-muted">
-        Trace the pipeline on the right — hover any card, click to pin, or Tab to the timeline and use arrow keys.
+        The right column mirrors production: client-side ingest until submit, then one structured AI pass for summary,
+        four-dimension scores, objection tags, and coaching notes, then the same rep and team analytics views everyone
+        uses in the workspace.
       </p>
 
       <div className="mt-10 hidden h-px w-28 bg-gradient-to-r from-pitchly-score-excellence/80 via-pitchly-brand to-transparent lg:block" />

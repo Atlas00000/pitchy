@@ -41,11 +41,11 @@ export function SocialProofTestimonials() {
       className="mt-16 rounded-[2rem] outline-none focus-visible:ring-2 focus-visible:ring-pitchly-brand/35 focus-visible:ring-offset-4 focus-visible:ring-offset-pitchly-canvas md:mt-20"
       tabIndex={0}
       role="region"
-      aria-label="Customer stories. Use arrow keys to change the active quote."
+      aria-label="Manager outcomes tied to Pitchly outputs: speed, objection signal, and time returned from reviews."
       onKeyDown={onKeyDown}
     >
       <p className="mb-6 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-pitchly-text-muted">
-        Verbatim manager narratives · pick a thread on the right
+        Voice-of-manager tied to the same surfaces: summaries, scores, tags, and coaching notes in one read
       </p>
 
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">

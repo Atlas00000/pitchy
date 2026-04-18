@@ -13,7 +13,7 @@ export function FooterNav() {
   return (
     <div className="lg:col-span-7" onPointerLeave={() => setHotId(null)}>
       <p className="mb-5 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-pitchly-text-muted lg:text-right">
-        Columns · hover to spotlight
+        Product anchors · account entry · GA legal — quick paths without leaving the marketing shell
       </p>
 
       <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">

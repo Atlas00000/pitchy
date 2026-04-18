@@ -12,7 +12,7 @@ interface FadeInUpProps {
   className?: string
 }
 
-/** Section mount: fade in + translate up 8px (~300ms, UI-OVERHAUL Week 8). */
+/** Section mount: fade in + translate up 8px (~300ms, docs/UI-OVERHAUL Week 8). */
 export function FadeInUp({ children, delay = 0, className }: FadeInUpProps) {
   return (
     <motion.div

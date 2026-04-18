@@ -26,7 +26,8 @@ export function FeaturesIntro() {
       </p>
 
       <p className="mt-6 max-w-sm text-left text-sm font-medium leading-relaxed text-pitchly-text-muted">
-        Hover any tile to spotlight it — the bento breathes with your cursor. Click to pin while you read.
+        Tiles map to shipped modules — transcript reader, rubric scores, objection tags, coaching notes, rep and team
+        analytics — the same depth you get after every upload.
       </p>
 
       <div className="mt-10 hidden h-px w-32 bg-gradient-to-r from-pitchly-brand via-pitchly-score-excellence/80 to-transparent lg:block" />

@@ -15,7 +15,7 @@ interface ScoreRingProps {
 }
 
 /**
- * Circular progress ring for overall call score (UI-OVERHAUL — Week 6).
+ * Circular progress ring for overall call score (docs/UI-OVERHAUL — Week 6).
  * Count-up on mount (~800ms).
  */
 export function ScoreRing({ score, size = 132, className }: ScoreRingProps) {

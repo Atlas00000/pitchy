@@ -206,7 +206,7 @@ export function FeaturesBento() {
       className="relative rounded-[2rem] outline-none focus-visible:ring-2 focus-visible:ring-pitchly-brand/35 focus-visible:ring-offset-4 focus-visible:ring-offset-pitchly-surface lg:col-span-7"
       tabIndex={0}
       role="region"
-      aria-label="Product features. Hover tiles to spotlight. Click to pin. Arrow keys move the pin when this grid is focused."
+      aria-label="Pitchly capabilities from ingest to team rollups. Arrow keys move the pinned tile when focused."
       onKeyDown={onKeyDown}
       onPointerLeave={() => setHover(null)}
       onBlurCapture={(e) => {
@@ -217,7 +217,7 @@ export function FeaturesBento() {
       }}
     >
       <p className="mb-4 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-pitchly-text-muted lg:text-right">
-        Bento layout · hover spotlight · click to pin · arrows when focused
+        Transcript through leaderboards — same feature stack as the workspace, staged for comparison
       </p>
 
       <div className="grid auto-rows-auto grid-cols-12 gap-4 md:gap-5">

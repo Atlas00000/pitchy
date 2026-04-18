@@ -142,7 +142,7 @@ export function ProblemPainRail() {
     >
       <div className="mb-1 flex items-center justify-between gap-4 lg:justify-end">
         <p className="text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-pitchly-text-muted lg:text-right">
-          Three failure modes before structured AI review
+          Review load, rubric drift, late coaching — replaced by one structured analysis pass
         </p>
       </div>
 

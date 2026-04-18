@@ -94,7 +94,7 @@ export function SocialProofStats() {
       onPointerLeave={() => setHotId(null)}
     >
       <p className="text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-pitchly-text-muted lg:text-right">
-        Live metrics · hover to spotlight
+        Review volume vs listen-backs · sub-30s structured pass · coaching reps can act on immediately
       </p>
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-3 lg:items-stretch">
         {SOCIAL_STATS.map((stat, index) => (

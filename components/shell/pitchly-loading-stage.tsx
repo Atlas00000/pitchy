@@ -57,7 +57,7 @@ export function PitchlyLoadingStage() {
           Pitchly
         </p>
         <p className="mt-3 text-sm font-medium uppercase tracking-[0.22em] text-pitchly-text-muted md:text-[13px]">
-          Warming the surface
+          Hydrating analysis shell
         </p>
       </motion.div>
 
@@ -75,7 +75,8 @@ export function PitchlyLoadingStage() {
       </motion.div>
 
       <p className="relative mt-6 max-w-sm text-center text-xs leading-relaxed text-pitchly-text-muted md:text-sm">
-        Layout, auth, and data hydrate in sequence — this beat is cosmetic while the route resolves.
+        Convex sync, Clerk session, and the route segment you asked for load next — same client stack as production
+        calls and dashboards.
       </p>
     </div>
   )
