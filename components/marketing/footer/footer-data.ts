@@ -49,5 +49,3 @@ export const FOOTER_COLUMNS: readonly FooterColumn[] = [
 
 export const FOOTER_TAGLINE =
   "Transcripts in, structured coaching out — the same rubric in the product is what you see on this marketing surface."
-
-export const FOOTER_BOTTOM_LINE = "Stack: Next.js · Convex · deployment-bound analysis."

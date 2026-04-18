@@ -16,13 +16,6 @@ export function FooterBrand() {
       <p className="mt-6 max-w-md text-left text-sm leading-relaxed text-pitchly-text-secondary md:text-base">
         {FOOTER_TAGLINE}
       </p>
-
-      <Link
-        href="/sign-up"
-        className="mt-8 inline-flex items-center justify-center rounded-2xl border border-pitchly-border-strong/70 bg-pitchly-canvas/80 px-5 py-2.5 text-sm font-semibold text-pitchly-text-primary shadow-sm backdrop-blur-sm transition-all duration-150 hover:border-pitchly-brand/40 hover:shadow-pitchly-raised"
-      >
-        Open the workspace
-      </Link>
     </div>
   )
 }
