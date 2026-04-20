@@ -1,5 +1,5 @@
 import { DashboardSummaryCards } from "@/components/layout/dashboard-summary-cards"
-import { CallList } from "@/components/calls/call-list"
+import { RecentCallsShowcase } from "@/components/calls/recent/recent-calls-showcase"
 import { PageHeader } from "@/components/shared/page-header"
 import { FadeInUp } from "@/components/motion/fade-in-up"
 
@@ -16,12 +16,7 @@ export default function DashboardPage() {
         <DashboardSummaryCards />
       </FadeInUp>
       <FadeInUp delay={0.12}>
-        <div>
-          <h3 className="mb-3 text-xs font-medium uppercase tracking-widest text-pitchly-text-muted">
-            Recent calls
-          </h3>
-          <CallList />
-        </div>
+        <RecentCallsShowcase />
       </FadeInUp>
     </div>
   )

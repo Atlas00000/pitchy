@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const pitchlyCardVariants = cva(
-  "rounded-xl border border-pitchly-border bg-card text-card-foreground shadow-pitchly-raised transition-all duration-150 ease-out",
+  "rounded-xl border border-pitchly-border bg-card text-card-foreground shadow-pitchly-raised transition-[transform,box-shadow] duration-150 ease-out",
   {
     variants: {
       interactive: {

@@ -1,11 +1,16 @@
-export type SummaryMetricAccent = "brand" | "excellence" | "caution" | "alert"
+export type SummaryMetricTone = "brand" | "positive" | "warning" | "critical"
+export type SummaryTrendDirection = "up" | "down" | "flat"
 
-export type SummaryMetricId = "total" | "analyzed" | "avgScore" | "objection"
+export type SummaryMetricId = "volume" | "coverage" | "rubric" | "friction"
 
 export interface SummaryMetricModel {
   readonly id: SummaryMetricId
-  readonly label: string
-  readonly value: string | number
-  readonly hint: string
-  readonly accent: SummaryMetricAccent
+  readonly title: string
+  readonly value: string
+  readonly helper: string
+  readonly tone: SummaryMetricTone
+  readonly delta?: string
+  readonly deltaLabel?: string
+  readonly contextLabel?: string
+  readonly trendDirection?: SummaryTrendDirection
 }
