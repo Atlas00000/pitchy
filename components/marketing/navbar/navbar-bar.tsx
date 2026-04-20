@@ -2,12 +2,14 @@
 
 import { useRef, useState, type ReactNode } from "react"
 import Link from "next/link"
+import { Menu, X } from "lucide-react"
 import { NavbarAuth } from "./navbar-auth"
 import { NAVBAR_MARKETING_LINKS } from "./navbar-data"
 
 export function NavbarBar({ children }: { children: ReactNode }) {
   const barRef = useRef<HTMLDivElement>(null)
   const [glowX, setGlowX] = useState(50)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div
@@ -28,11 +30,23 @@ export function NavbarBar({ children }: { children: ReactNode }) {
         aria-hidden
       />
 
-      <div className="relative z-[1] flex w-full min-w-0 flex-wrap items-center gap-3 md:flex-nowrap md:gap-5">
-        <div className="shrink-0">{children}</div>
+      <div className="relative z-[1] flex w-full min-w-0 flex-col gap-2.5 md:flex-row md:flex-nowrap md:items-center md:gap-5">
+        <div className="flex w-full items-center gap-3 md:w-auto">
+          <div className="shrink-0">{children}</div>
+          <button
+            type="button"
+            className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-xl border border-pitchly-border-strong/70 bg-pitchly-canvas/80 text-pitchly-text-secondary transition-colors hover:text-pitchly-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pitchly-brand/40 md:hidden"
+            aria-label={mobileMenuOpen ? "Close mobile menu" : "Open mobile menu"}
+            aria-expanded={mobileMenuOpen ? "true" : "false"}
+            aria-controls="marketing-mobile-menu"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+          >
+            {mobileMenuOpen ? <X className="h-4.5 w-4.5" /> : <Menu className="h-4.5 w-4.5" />}
+          </button>
+        </div>
 
         <nav
-          className="flex min-w-0 flex-1 justify-center gap-0.5 overflow-x-auto px-1 [-ms-overflow-style:none] [scrollbar-width:none] md:gap-1 [&::-webkit-scrollbar]:hidden"
+          className="hidden min-w-0 flex-1 justify-center gap-0.5 overflow-x-auto px-1 [-ms-overflow-style:none] [scrollbar-width:none] md:flex md:gap-1 [&::-webkit-scrollbar]:hidden"
           aria-label="Page sections"
         >
           {NAVBAR_MARKETING_LINKS.map((link) => (
@@ -46,8 +60,31 @@ export function NavbarBar({ children }: { children: ReactNode }) {
           ))}
         </nav>
 
-        <div className="ml-auto shrink-0">
+        <div className="ml-auto hidden shrink-0 md:block">
           <NavbarAuth />
+        </div>
+
+        <div
+          id="marketing-mobile-menu"
+          className={`md:hidden ${mobileMenuOpen ? "block" : "hidden"}`}
+        >
+          <div className="space-y-2 rounded-2xl border border-pitchly-border bg-pitchly-canvas/95 p-2.5 shadow-pitchly-raised">
+            <nav className="grid gap-1" aria-label="Mobile page sections">
+              {NAVBAR_MARKETING_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-pitchly-text-secondary transition-colors hover:bg-pitchly-brand-light/70 hover:text-pitchly-brand"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="border-t border-pitchly-border pt-2">
+              <NavbarAuth />
+            </div>
+          </div>
         </div>
       </div>
     </div>
