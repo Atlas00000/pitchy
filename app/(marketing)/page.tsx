@@ -11,6 +11,11 @@ export default function LandingPage() {
       {/* Mobile: keep homepage minimal (nav + header + footer) */}
       <div className="md:hidden">
         <Hero />
+        <SocialProof />
+        <ProblemSection />
+        <HowItWorks />
+        <FeaturesSection />
+        <PricingSection />
       </div>
 
       {/* Tablet/Web: keep full marketing flow unchanged */}
