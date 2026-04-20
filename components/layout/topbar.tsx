@@ -2,8 +2,9 @@
 
 import Link from "next/link"
 import { UserButton } from "@clerk/nextjs"
-import { Home } from "lucide-react"
+import { Home, Menu } from "lucide-react"
 import { usePathname } from "next/navigation"
+import { useDashboardMobileSidebar } from "@/components/providers/dashboard-mobile-sidebar-provider"
 import { cn } from "@/lib/utils"
 
 const pageTitles: Record<string, string> = {
@@ -25,10 +26,22 @@ export function Topbar() {
   const pathname = usePathname()
   const title = getTitle(pathname)
   const homeActive = pathname === "/dashboard"
+  const { open, toggle } = useDashboardMobileSidebar()
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between gap-4 border-b border-pitchly-border/80 bg-pitchly-canvas/90 px-4 backdrop-blur-md supports-[backdrop-filter]:bg-pitchly-canvas/75 md:px-6">
       <div className="flex min-w-0 flex-1 items-center gap-3 md:gap-4">
+        <button
+          type="button"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-pitchly-border/80 bg-pitchly-canvas/90 text-pitchly-text-secondary transition-colors hover:text-pitchly-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pitchly-brand/35 md:hidden"
+          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={open ? "true" : "false"}
+          aria-controls="dashboard-sidebar"
+          onClick={toggle}
+        >
+          <Menu className="h-5 w-5" strokeWidth={2} aria-hidden />
+        </button>
+
         <Link
           href="/dashboard"
           className={cn(

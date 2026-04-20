@@ -8,6 +8,7 @@ import { Topbar } from "@/components/layout/topbar"
 import { ToastProvider } from "@/components/shared/toast"
 import { ErrorBoundary } from "@/components/shared/error-boundary"
 import { UserProvider } from "@/components/providers/user-provider"
+import { DashboardMobileSidebarProvider } from "@/components/providers/dashboard-mobile-sidebar-provider"
 import { PageCrossFade } from "@/components/motion/page-cross-fade"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -16,17 +17,19 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <ToastProvider>
       <UserProvider>
-        <div className="flex min-h-screen">
-          <Sidebar />
-          <div className="flex flex-col flex-1 min-w-0">
-            <Topbar />
-            <main className="flex-1 overflow-auto bg-pitchly-canvas p-6">
-              <ErrorBoundary>
-                <PageCrossFade>{children}</PageCrossFade>
-              </ErrorBoundary>
-            </main>
+        <DashboardMobileSidebarProvider>
+          <div className="flex min-h-screen">
+            <Sidebar />
+            <div className="flex min-w-0 flex-1 flex-col">
+              <Topbar />
+              <main className="flex-1 overflow-auto bg-pitchly-canvas p-6">
+                <ErrorBoundary>
+                  <PageCrossFade>{children}</PageCrossFade>
+                </ErrorBoundary>
+              </main>
+            </div>
           </div>
-        </div>
+        </DashboardMobileSidebarProvider>
       </UserProvider>
     </ToastProvider>
   )
