@@ -51,6 +51,18 @@ export default defineSchema({
   callAnalysis: defineTable({
     callId: v.id("calls"),
     summary: v.string(),
+    topActions: v.array(
+      v.object({
+        title: v.string(),
+        rationale: v.string(),
+        priority: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
+      })
+    ),
+    outcomeConfidence: v.object({
+      score: v.number(),
+      label: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
+      rationale: v.string(),
+    }),
     scores: v.object({
       discovery: v.number(),
       objectionHandling: v.number(),
@@ -71,6 +83,8 @@ export default defineSchema({
         quote: v.string(),
         position: v.number(),
         suggestedResponse: v.string(),
+        severity: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
+        talkTrackSuggestions: v.array(v.string()),
       })
     ),
     coachingNotes: v.array(
@@ -78,6 +92,8 @@ export default defineSchema({
         type: v.union(v.literal("strength"), v.literal("improvement")),
         observation: v.string(),
         suggestion: v.string(),
+        severity: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
+        talkTrackSuggestions: v.array(v.string()),
       })
     ),
     analyzedWith: v.union(v.literal("gemini"), v.literal("claude")),

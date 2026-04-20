@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai"
 import type { AIProvider } from "../types"
 import type { CallAnalysis, CallMetadata } from "@/types"
 import { buildCallAnalysisPrompt, PROMPT_VERSION } from "@/lib/prompts/callAnalysis"
+import { normalizeCallAnalysis } from "@/lib/ai/normalize-analysis"
 
 export function createGeminiProvider(apiKey: string): AIProvider {
   const genAI = new GoogleGenerativeAI(apiKey)
@@ -21,9 +22,10 @@ export function createGeminiProvider(apiKey: string): AIProvider {
       const text = result.response.text()
 
       const parsed = JSON.parse(text) as CallAnalysis
-      parsed.analyzedWith = "gemini"
-      parsed.promptVersion = PROMPT_VERSION
-      return parsed
+      const normalized = normalizeCallAnalysis(parsed)
+      normalized.analyzedWith = "gemini"
+      normalized.promptVersion = PROMPT_VERSION
+      return normalized
     },
   }
 }

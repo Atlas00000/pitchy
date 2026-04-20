@@ -14,6 +14,28 @@ const modules = import.meta.glob("../../convex/**/*.{ts,js}")
 
 const MOCK_ANALYSIS = {
   summary: "Mock summary: rep discovered key pain points and agreed on a demo.",
+  topActions: [
+    {
+      title: "Clarify budget ownership before proposing pricing.",
+      rationale: "Budget concerns appeared early and were not qualified.",
+      priority: "high" as const,
+    },
+    {
+      title: "Anchor value to implementation timeline.",
+      rationale: "Timing hesitation was tied to quarter planning.",
+      priority: "medium" as const,
+    },
+    {
+      title: "Confirm next meeting owner and agenda.",
+      rationale: "Next step was set but not fully owner-locked.",
+      priority: "medium" as const,
+    },
+  ],
+  outcomeConfidence: {
+    score: 78,
+    label: "high" as const,
+    rationale: "Transcript includes clear objections, responses, and next-step signals.",
+  },
   scores: {
     discovery: 8,
     objectionHandling: 7,
@@ -27,6 +49,11 @@ const MOCK_ANALYSIS = {
       quote: "That sounds expensive.",
       position: 100,
       suggestedResponse: "Let's look at ROI together.",
+      severity: "high" as const,
+      talkTrackSuggestions: [
+        "If budget is tight, we can phase rollout by team.",
+        "Would it help if we model cost against current churn impact?",
+      ],
     },
   ],
   coachingNotes: [
@@ -34,11 +61,21 @@ const MOCK_ANALYSIS = {
       type: "strength" as const,
       observation: "You set a clear next step.",
       suggestion: "Keep confirming in writing after each call.",
+      severity: "low" as const,
+      talkTrackSuggestions: [
+        "Let me recap owners and deadlines before we close.",
+        "I'll send a summary right after this call for alignment.",
+      ],
     },
     {
       type: "improvement" as const,
       observation: "Discovery was surface-level.",
       suggestion: "Ask 'why' at least twice.",
+      severity: "high" as const,
+      talkTrackSuggestions: [
+        "What operational impact does that create for your team?",
+        "If nothing changes, what risk do you see this quarter?",
+      ],
     },
   ],
   analyzedWith: "gemini" as const,
@@ -151,6 +188,8 @@ describe("analyzeCall — success: analysis record", () => {
     const analysis = await t.query(api.analysis.getAnalysis, { callId })
     expect(analysis).toMatchObject({
       summary: expect.any(String),
+      topActions: expect.any(Array),
+      outcomeConfidence: expect.any(Object),
       scores: expect.any(Object),
       objections: expect.any(Array),
       coachingNotes: expect.any(Array),

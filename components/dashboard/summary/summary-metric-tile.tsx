@@ -5,20 +5,20 @@ import { motion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
-import type { SummaryMetricAccent, SummaryMetricModel } from "./summary-metric-types"
+import type { SummaryMetricModel, SummaryMetricTone } from "./summary-metric-types"
 
-const accentRail: Record<SummaryMetricAccent, string> = {
+const toneRail: Record<SummaryMetricTone, string> = {
   brand: "from-pitchly-brand via-pitchly-brand-muted to-transparent",
-  excellence: "from-pitchly-score-excellence via-pitchly-brand-light to-transparent",
-  caution: "from-pitchly-score-caution via-pitchly-accent-amber/80 to-transparent",
-  alert: "from-pitchly-score-critical via-pitchly-score-critical/50 to-transparent",
+  positive: "from-pitchly-score-excellence via-pitchly-brand-light to-transparent",
+  warning: "from-pitchly-score-caution via-pitchly-accent-amber/80 to-transparent",
+  critical: "from-pitchly-score-critical via-pitchly-score-critical/50 to-transparent",
 }
 
-const accentSpot: Record<SummaryMetricAccent, string> = {
+const toneSpot: Record<SummaryMetricTone, string> = {
   brand: "rgb(99 102 241 / 0.14)",
-  excellence: "rgb(34 197 94 / 0.12)",
-  caution: "rgb(245 158 11 / 0.12)",
-  alert: "rgb(239 68 68 / 0.12)",
+  positive: "rgb(34 197 94 / 0.12)",
+  warning: "rgb(245 158 11 / 0.12)",
+  critical: "rgb(239 68 68 / 0.12)",
 }
 
 export interface SummaryMetricTileProps {
@@ -70,7 +70,7 @@ export function SummaryMetricTile({ metric, className, ringProgress }: SummaryMe
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-80 transition-opacity duration-500 group-hover:opacity-100"
           style={{
-            background: `radial-gradient(520px circle at ${spot.x}% ${spot.y}%, ${accentSpot[metric.accent]}, transparent 42%)`,
+            background: `radial-gradient(520px circle at ${spot.x}% ${spot.y}%, ${toneSpot[metric.tone]}, transparent 42%)`,
           }}
         />
         <div
@@ -81,13 +81,13 @@ export function SummaryMetricTile({ metric, className, ringProgress }: SummaryMe
           aria-hidden
           className={cn(
             "pointer-events-none absolute left-4 top-7 bottom-7 w-[3px] rounded-full bg-gradient-to-b md:left-5",
-            accentRail[metric.accent]
+            toneRail[metric.tone]
           )}
         />
 
         <div className="relative flex items-start justify-between gap-3 pl-2 md:pl-3">
           <p className="max-w-[14rem] text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-pitchly-text-muted">
-            {metric.label}
+            {metric.title}
           </p>
           {showRing ? (
             <div className="relative h-12 w-12 shrink-0">
@@ -117,10 +117,10 @@ export function SummaryMetricTile({ metric, className, ringProgress }: SummaryMe
               aria-hidden
               className={cn(
                 "h-2.5 w-2.5 shrink-0 rounded-full shadow-[0_0_20px_currentColor] md:h-3 md:w-3",
-                metric.accent === "brand" && "bg-pitchly-brand text-pitchly-brand",
-                metric.accent === "excellence" && "bg-pitchly-score-excellence text-pitchly-score-excellence",
-                metric.accent === "caution" && "bg-pitchly-score-caution text-pitchly-score-caution",
-                metric.accent === "alert" && "bg-pitchly-score-critical text-pitchly-score-critical"
+                metric.tone === "brand" && "bg-pitchly-brand text-pitchly-brand",
+                metric.tone === "positive" && "bg-pitchly-score-excellence text-pitchly-score-excellence",
+                metric.tone === "warning" && "bg-pitchly-score-caution text-pitchly-score-caution",
+                metric.tone === "critical" && "bg-pitchly-score-critical text-pitchly-score-critical"
               )}
             />
           )}
@@ -132,7 +132,7 @@ export function SummaryMetricTile({ metric, className, ringProgress }: SummaryMe
               {metric.value}
             </span>
           </p>
-          <p className="mt-2 max-w-[18rem] text-xs leading-relaxed text-pitchly-text-secondary">{metric.hint}</p>
+          <p className="mt-2 max-w-[18rem] text-xs leading-relaxed text-pitchly-text-secondary">{metric.helper}</p>
         </div>
       </div>
     </motion.div>

@@ -14,11 +14,23 @@ import { RecentCallsLoading } from "./recent-calls-loading"
 import { RecentCallsEmpty } from "./recent-calls-empty"
 import type { RecentCallViewModel } from "./recent-call-types"
 
-function buildRecentCallsViewModel(limitCalls: ReturnType<typeof useCalls>, allAnalyses: ReturnType<typeof useQuery>) {
+type RecentAnalysisLite = {
+  callId: string
+  scores: { overall: number }
+  summary: string
+  objections: unknown[]
+  coachingNotes: unknown[]
+  analyzedWith: "gemini" | "claude"
+}
+
+function buildRecentCallsViewModel(
+  limitCalls: ReturnType<typeof useCalls>,
+  allAnalyses: RecentAnalysisLite[] | undefined
+) {
   if (!limitCalls || !allAnalyses) return []
 
   const analysisByCallId = new Map(
-    allAnalyses.map((analysis) => [
+    allAnalyses.map((analysis: RecentAnalysisLite) => [
       analysis.callId as string,
       {
         score: analysis.scores.overall,

@@ -44,6 +44,8 @@ export const analyzeCall = action({
       await ctx.runMutation(api.analysis.saveAnalysis, {
         callId,
         summary: analysis.summary,
+        topActions: analysis.topActions,
+        outcomeConfidence: analysis.outcomeConfidence,
         scores: analysis.scores,
         objections: analysis.objections,
         coachingNotes: analysis.coachingNotes,

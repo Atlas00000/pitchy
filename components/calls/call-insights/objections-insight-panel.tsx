@@ -6,6 +6,8 @@ import { ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import type { Objection, ObjectionCategory } from "@/types"
+import { InsightSeverityTag } from "@/components/calls/call-insights/insight-severity-tag"
+import { TalkTrackList } from "@/components/calls/call-insights/talk-track-list"
 
 import { InsightSpotlightSurface } from "./insight-spotlight-surface"
 
@@ -104,6 +106,7 @@ export function ObjectionsInsightPanel({ objections }: ObjectionsInsightPanelPro
                       {formatCategory(obj.category)}
                     </span>
                     <span className="font-mono text-[0.65rem] text-pitchly-text-muted">pos {obj.position}</span>
+                    <InsightSeverityTag severity={obj.severity} />
                   </div>
 
                   <blockquote className="mt-3 border-l-2 border-pitchly-border-strong/80 pl-4 text-sm leading-relaxed text-pitchly-text-primary md:text-[0.95rem]">
@@ -121,6 +124,8 @@ export function ObjectionsInsightPanel({ objections }: ObjectionsInsightPanelPro
                       </div>
                     </details>
                   ) : null}
+
+                  <TalkTrackList items={obj.talkTrackSuggestions} title="Talk track suggestions" />
                 </motion.div>
               </div>
             </div>

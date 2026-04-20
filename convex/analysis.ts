@@ -1,5 +1,7 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { normalizeCallAnalysis } from "../lib/ai/normalize-analysis"
+import type { CallAnalysis } from "../types"
 
 export const getAnalysis = query({
   args: { callId: v.id("calls") },
@@ -75,6 +77,18 @@ export const saveAnalysis = mutation({
   args: {
     callId: v.id("calls"),
     summary: v.string(),
+    topActions: v.array(
+      v.object({
+        title: v.string(),
+        rationale: v.string(),
+        priority: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
+      })
+    ),
+    outcomeConfidence: v.object({
+      score: v.number(),
+      label: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
+      rationale: v.string(),
+    }),
     scores: v.object({
       discovery: v.number(),
       objectionHandling: v.number(),
@@ -95,6 +109,8 @@ export const saveAnalysis = mutation({
         quote: v.string(),
         position: v.number(),
         suggestedResponse: v.string(),
+        severity: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
+        talkTrackSuggestions: v.array(v.string()),
       })
     ),
     coachingNotes: v.array(
@@ -102,6 +118,8 @@ export const saveAnalysis = mutation({
         type: v.union(v.literal("strength"), v.literal("improvement")),
         observation: v.string(),
         suggestion: v.string(),
+        severity: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
+        talkTrackSuggestions: v.array(v.string()),
       })
     ),
     analyzedWith: v.union(v.literal("gemini"), v.literal("claude")),
@@ -119,5 +137,33 @@ export const saveAnalysis = mutation({
     }
 
     return ctx.db.insert("callAnalysis", args)
+  },
+})
+
+export const backfillLegacyAnalyses = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) throw new Error("Unauthenticated")
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .unique()
+
+    if (!user || user.role !== "manager") throw new Error("Only managers can run backfill")
+
+    const analyses = await ctx.db.query("callAnalysis").collect()
+    for (const analysis of analyses) {
+      const normalized = normalizeCallAnalysis(analysis as unknown as CallAnalysis)
+      await ctx.db.patch(analysis._id, {
+        topActions: normalized.topActions,
+        outcomeConfidence: normalized.outcomeConfidence,
+        objections: normalized.objections,
+        coachingNotes: normalized.coachingNotes,
+      })
+    }
+
+    return { updated: analyses.length }
   },
 })

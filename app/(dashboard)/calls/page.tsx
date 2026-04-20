@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { CallList } from "@/components/calls/call-list"
+import { CallsPagePhaseA } from "@/components/calls/page/calls-page-phase-a"
 import { PageHeader } from "@/components/shared/page-header"
 import { FadeInUp } from "@/components/motion/fade-in-up"
 import { buttonVariants } from "@/components/ui/button"
@@ -20,7 +20,7 @@ export default function CallsPage() {
         />
       </FadeInUp>
       <FadeInUp delay={0.06}>
-        <CallList />
+        <CallsPagePhaseA />
       </FadeInUp>
     </div>
   )

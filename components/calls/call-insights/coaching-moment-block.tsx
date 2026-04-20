@@ -5,6 +5,8 @@ import { ChevronDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import type { CoachingNote } from "@/types"
+import { InsightSeverityTag } from "@/components/calls/call-insights/insight-severity-tag"
+import { TalkTrackList } from "@/components/calls/call-insights/talk-track-list"
 
 export type CoachingMomentVariant = "strength" | "improvement"
 
@@ -51,6 +53,7 @@ export function CoachingMomentBlock({ note, variant, index }: CoachingMomentBloc
             {isStrength ? "Signal" : "Tune-up"}
           </span>
           <span className="font-mono text-[0.65rem] text-pitchly-text-muted">#{index + 1}</span>
+          <InsightSeverityTag severity={note.severity} />
         </div>
 
         <p className="mt-3 text-sm font-medium leading-relaxed text-pitchly-text-primary md:text-[0.95rem]">
@@ -68,6 +71,8 @@ export function CoachingMomentBlock({ note, variant, index }: CoachingMomentBloc
             </p>
           </details>
         ) : null}
+
+        <TalkTrackList items={note.talkTrackSuggestions} title="Talk tracks to practice" />
       </div>
     </motion.article>
   )

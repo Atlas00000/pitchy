@@ -7,6 +7,28 @@ const modules = import.meta.glob("../../convex/**/*.{ts,js}")
 
 const SAMPLE_ANALYSIS = {
   summary: "Rep uncovered pain around CRM scalability. Agreed to a demo next week.",
+  topActions: [
+    {
+      title: "Quantify migration cost of current stack.",
+      rationale: "Prospect raised scalability pain without concrete numbers.",
+      priority: "high" as const,
+    },
+    {
+      title: "Confirm stakeholder map before demo.",
+      rationale: "Authority path was implied but not explicit.",
+      priority: "medium" as const,
+    },
+    {
+      title: "Frame ROI against existing spend.",
+      rationale: "Budget objection emerged and needs proactive framing.",
+      priority: "medium" as const,
+    },
+  ],
+  outcomeConfidence: {
+    score: 74,
+    label: "medium" as const,
+    rationale: "Solid transcript signal with minor ambiguity around authority.",
+  },
   scores: {
     discovery: 8,
     objectionHandling: 7,
@@ -20,6 +42,11 @@ const SAMPLE_ANALYSIS = {
       quote: "That seems expensive for our budget.",
       position: 120,
       suggestedResponse: "Let's look at the ROI relative to your current spend.",
+      severity: "high" as const,
+      talkTrackSuggestions: [
+        "Can we compare this against current tooling and process cost?",
+        "If we phased rollout, would that make budget planning easier?",
+      ],
     },
   ],
   coachingNotes: [
@@ -27,11 +54,21 @@ const SAMPLE_ANALYSIS = {
       type: "strength" as const,
       observation: "You established clear next steps.",
       suggestion: "Keep confirming next steps in writing after each call.",
+      severity: "low" as const,
+      talkTrackSuggestions: [
+        "I'll summarize owners and timeline before we wrap.",
+        "I'll send a recap email with next steps right after this.",
+      ],
     },
     {
       type: "improvement" as const,
       observation: "Discovery questions were surface-level.",
       suggestion: "Ask 'why' at least twice before moving on.",
+      severity: "high" as const,
+      talkTrackSuggestions: [
+        "What downstream impact does that create for your team?",
+        "What happens if this issue stays unresolved this quarter?",
+      ],
     },
   ],
   analyzedWith: "gemini" as const,

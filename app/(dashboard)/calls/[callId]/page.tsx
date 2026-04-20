@@ -7,6 +7,7 @@ import { StatusBadge } from "@/components/shared/status-badge"
 import { TranscriptRecordPanel } from "@/components/calls/call-record/transcript-record-panel"
 import { SummaryRecordPanel } from "@/components/calls/call-record/summary-record-panel"
 import { ScoreRecordPanel } from "@/components/calls/call-record/score-record-panel"
+import { AnalysisPriorityStrip } from "@/components/calls/call-record/analysis-priority-strip"
 import { CallAnalysisInsights } from "@/components/calls/call-insights/call-analysis-insights"
 import { AnalyzedWithBadge } from "@/components/analysis/analyzed-with-badge"
 import { RetryButton } from "@/components/calls/retry-button"
@@ -108,7 +109,13 @@ function CallDetailContent({ callId }: { callId: Id<"calls"> }) {
             <FadeInUp delay={0.06}>
               <ScoreRecordPanel scores={analysis.scores} />
             </FadeInUp>
-            <FadeInUp delay={0.12}>
+            <FadeInUp delay={0.1}>
+              <AnalysisPriorityStrip
+                confidence={analysis.outcomeConfidence}
+                topActions={analysis.topActions}
+              />
+            </FadeInUp>
+            <FadeInUp delay={0.14}>
               <CallAnalysisInsights objections={analysis.objections} coachingNotes={analysis.coachingNotes} />
             </FadeInUp>
           </div>

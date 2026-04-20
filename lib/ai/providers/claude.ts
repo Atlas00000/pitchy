@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk"
 import type { AIProvider } from "../types"
 import type { CallAnalysis, CallMetadata } from "@/types"
 import { buildCallAnalysisPrompt, PROMPT_VERSION } from "@/lib/prompts/callAnalysis"
+import { normalizeCallAnalysis } from "@/lib/ai/normalize-analysis"
 
 export function createClaudeProvider(apiKey: string): AIProvider {
   const client = new Anthropic({ apiKey })
@@ -21,9 +22,10 @@ export function createClaudeProvider(apiKey: string): AIProvider {
       if (content.type !== "text") throw new Error("Unexpected response type from Claude")
 
       const parsed = JSON.parse(content.text) as CallAnalysis
-      parsed.analyzedWith = "claude"
-      parsed.promptVersion = PROMPT_VERSION
-      return parsed
+      const normalized = normalizeCallAnalysis(parsed)
+      normalized.analyzedWith = "claude"
+      normalized.promptVersion = PROMPT_VERSION
+      return normalized
     },
   }
 }

@@ -21,6 +21,18 @@ Analyze this call and return a single JSON object with exactly this structure. N
 
 {
   "summary": "A concise 2-3 sentence summary covering: what was discussed, key prospect pain points, and agreed next steps.",
+  "topActions": [
+    {
+      "title": <short action title, imperative verb first>,
+      "rationale": <why this action matters based on transcript evidence>,
+      "priority": <"high" | "medium" | "low">
+    }
+  ],
+  "outcomeConfidence": {
+    "score": <integer 0-100 confidence in this analysis>,
+    "label": <"high" | "medium" | "low">,
+    "rationale": <1 sentence explaining confidence level and uncertainty if any>
+  },
   "scores": {
     "discovery": <integer 0-10: how well the rep uncovered prospect pain, goals, and context>,
     "objectionHandling": <integer 0-10: how effectively objections were addressed>,
@@ -33,14 +45,24 @@ Analyze this call and return a single JSON object with exactly this structure. N
       "category": <one of: "price" | "timing" | "authority" | "need" | "competitor" | "other">,
       "quote": <exact quoted text from the transcript where the objection occurred>,
       "position": <integer: approximate character position in the transcript>,
-      "suggestedResponse": <a specific, actionable suggested response the rep could have used>
+      "suggestedResponse": <a specific, actionable suggested response the rep could have used>,
+      "severity": <"high" | "medium" | "low">,
+      "talkTrackSuggestions": [
+        <short practical line rep can say next time>,
+        <alternative phrasing or follow-up line>
+      ]
     }
   ],
   "coachingNotes": [
     {
       "type": <"strength" | "improvement">,
       "observation": <specific observation about what happened in the call>,
-      "suggestion": <concrete actionable suggestion — for strengths, how to reinforce; for improvements, what to do differently>
+      "suggestion": <concrete actionable suggestion — for strengths, how to reinforce; for improvements, what to do differently>,
+      "severity": <"high" | "medium" | "low">,
+      "talkTrackSuggestions": [
+        <coaching-aligned line to practice>,
+        <backup line for similar scenario>
+      ]
     }
   ],
   "analyzedWith": "gemini",
@@ -48,9 +70,12 @@ Analyze this call and return a single JSON object with exactly this structure. N
 }
 
 Rules:
+- Return exactly 3 items in topActions ordered highest impact first
 - Return 2-3 strengths and 2-3 improvements in coachingNotes
 - Only include objections that actually appear in the transcript
 - Scores must be integers 0-10 except overall which is a decimal
+- outcomeConfidence.score must be 0-100 and outcomeConfidence.label should align to score bands (high: 75+, medium: 45-74, low: below 45)
+- Every objection and coaching note must include 2 talkTrackSuggestions and a severity level
 - Write coaching notes in second person ("You did well..." / "Next time, try...")
 - Be specific — reference actual moments from the call, not generic advice`
 }

@@ -14,6 +14,7 @@ export type DealStage =
   | "closed_lost"
 
 export type ObjectionCategory = "price" | "timing" | "authority" | "need" | "competitor" | "other"
+export type InsightSeverity = "high" | "medium" | "low"
 
 export interface ScoreDimensions {
   discovery: number
@@ -28,16 +29,34 @@ export interface Objection {
   quote: string
   position: number
   suggestedResponse: string
+  severity: InsightSeverity
+  talkTrackSuggestions: string[]
 }
 
 export interface CoachingNote {
   type: "strength" | "improvement"
   observation: string
   suggestion: string
+  severity: InsightSeverity
+  talkTrackSuggestions: string[]
+}
+
+export interface TopAction {
+  title: string
+  rationale: string
+  priority: InsightSeverity
+}
+
+export interface OutcomeConfidence {
+  score: number
+  label: "high" | "medium" | "low"
+  rationale: string
 }
 
 export interface CallAnalysis {
   summary: string
+  topActions: TopAction[]
+  outcomeConfidence: OutcomeConfidence
   scores: ScoreDimensions
   objections: Objection[]
   coachingNotes: CoachingNote[]
