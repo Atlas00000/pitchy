@@ -8,8 +8,8 @@ import { PricingSection } from "@/components/marketing/pricing-section"
 export default function LandingPage() {
   return (
     <main>
-      <div className="md:hidden">
-        <SocialProof />
+      <div className="px-4 py-8 md:hidden">
+        <p className="text-base text-pitchly-text-primary">Mobile test: plain text only.</p>
       </div>
 
       <div className="hidden md:block">

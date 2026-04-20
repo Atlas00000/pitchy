@@ -11,7 +11,9 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <div className="flex min-h-0 flex-1 flex-col">
         <PageCrossFade className="flex flex-1 flex-col">{children}</PageCrossFade>
       </div>
-      <Footer />
+      <div className="hidden md:block">
+        <Footer />
+      </div>
     </div>
   )
 }
