@@ -5,7 +5,7 @@
 
 export function HeroBackground() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
       <div className="absolute -left-[28%] -top-[45%] h-[min(120vw,900px)] w-[min(120vw,900px)] rounded-[40%] bg-gradient-to-br from-pitchly-brand-light/90 via-pitchly-brand-light/35 to-transparent blur-3xl" />
       <div className="absolute -right-[22%] top-[5%] h-[min(95vw,720px)] w-[min(95vw,720px)] rotate-[12deg] rounded-[42%] bg-gradient-to-bl from-pitchly-surface via-pitchly-raised/80 to-transparent blur-3xl" />
       <div className="absolute bottom-[-35%] left-[15%] h-[55%] w-[45%] rounded-[50%] bg-gradient-to-tr from-pitchly-brand/10 via-transparent to-transparent blur-3xl" />

@@ -5,7 +5,7 @@ import { HowItWorksIntro } from "./how-it-works-intro"
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative overflow-hidden bg-pitchly-canvas py-14 md:py-28 lg:py-32">
+    <section id="how-it-works" className="relative isolate overflow-hidden bg-pitchly-canvas py-14 md:py-28 lg:py-32">
       <HowItWorksBackground />
 
       <div className="relative z-10 mx-auto w-full px-4 md:w-[min(100%-1.5rem,80vw)] md:px-0">

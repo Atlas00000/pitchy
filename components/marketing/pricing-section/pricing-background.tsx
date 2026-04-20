@@ -4,7 +4,7 @@
 
 export function PricingBackground() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
       <div className="absolute left-[-22%] bottom-[-35%] h-[85%] w-[58%] rotate-[8deg] rounded-[46%] bg-gradient-to-tr from-pitchly-brand/18 via-pitchly-brand-light/50 to-transparent blur-3xl" />
       <div className="absolute -right-[15%] top-[-28%] h-[72%] w-[52%] rounded-[48%] bg-gradient-to-bl from-pitchly-canvas via-pitchly-raised to-transparent blur-3xl" />
 

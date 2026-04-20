@@ -4,7 +4,7 @@
 
 export function ProblemSectionBackground() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
       {/* Soft brand wash — diagonal, not a centered “spotlight” blob */}
       <div className="absolute -left-[20%] top-[-30%] h-[85%] w-[70%] rotate-[-8deg] rounded-[40%] bg-gradient-to-br from-pitchly-brand-light/90 via-pitchly-brand-light/25 to-transparent blur-3xl" />
       <div className="absolute -right-[15%] bottom-[-25%] h-[60%] w-[55%] rounded-[50%] bg-gradient-to-tl from-pitchly-raised/80 via-transparent to-transparent blur-3xl" />

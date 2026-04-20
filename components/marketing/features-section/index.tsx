@@ -4,7 +4,7 @@ import { FeaturesIntro } from "./features-intro"
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="relative overflow-hidden bg-pitchly-surface py-14 md:py-28 lg:py-32">
+    <section id="features" className="relative isolate overflow-hidden bg-pitchly-surface py-14 md:py-28 lg:py-32">
       <FeaturesBackground />
 
       <div className="relative z-10 mx-auto w-full px-4 md:w-[min(100%-1.5rem,80vw)] md:px-0">

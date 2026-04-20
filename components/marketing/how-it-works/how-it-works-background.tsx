@@ -4,7 +4,7 @@
 
 export function HowItWorksBackground() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
       <div className="absolute -right-[25%] top-[-20%] h-[75%] w-[65%] rotate-[6deg] rounded-[45%] bg-gradient-to-bl from-pitchly-brand-light/70 via-pitchly-surface to-transparent blur-3xl" />
       <div className="absolute -left-[18%] bottom-[-30%] h-[55%] w-[50%] rounded-[50%] bg-gradient-to-tr from-pitchly-score-excellence/10 via-transparent to-transparent blur-3xl" />
 

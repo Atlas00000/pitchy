@@ -4,7 +4,7 @@
 
 export function FeaturesBackground() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
       <div className="absolute left-[-18%] top-[-35%] h-[90%] w-[55%] rotate-[-10deg] rounded-[42%] bg-gradient-to-br from-pitchly-brand-light/85 via-transparent to-transparent blur-3xl" />
       <div className="absolute bottom-[-28%] right-[-12%] h-[65%] w-[48%] rounded-[48%] bg-gradient-to-tl from-pitchly-raised via-pitchly-brand-light/30 to-transparent blur-3xl" />
 

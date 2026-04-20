@@ -4,7 +4,7 @@ import { ProblemSectionIntro } from "./problem-section-intro"
 
 export function ProblemSection() {
   return (
-    <section className="relative overflow-hidden border-y border-pitchly-border bg-pitchly-surface py-14 md:py-28 lg:py-32">
+    <section className="relative isolate overflow-hidden border-y border-pitchly-border bg-pitchly-surface py-14 md:py-28 lg:py-32">
       <ProblemSectionBackground />
 
       <div className="relative z-10 mx-auto w-full px-4 md:w-[min(100%-1.5rem,80vw)] md:px-0">

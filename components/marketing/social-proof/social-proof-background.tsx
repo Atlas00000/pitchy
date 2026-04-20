@@ -4,7 +4,7 @@
 
 export function SocialProofBackground() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
       <div className="absolute left-[-12%] top-[-40%] h-[95%] w-[50%] rotate-[-11deg] rounded-[44%] bg-gradient-to-br from-pitchly-brand-light/75 via-transparent to-transparent blur-3xl" />
       <div className="absolute bottom-[-32%] right-[-20%] h-[70%] w-[55%] rounded-[50%] bg-gradient-to-tl from-pitchly-score-excellence/12 via-pitchly-surface to-transparent blur-3xl" />
 
