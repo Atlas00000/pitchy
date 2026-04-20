@@ -8,12 +8,20 @@ import { PricingSection } from "@/components/marketing/pricing-section"
 export default function LandingPage() {
   return (
     <main>
-      <Hero />
-      <ProblemSection />
-      <HowItWorks />
-      <FeaturesSection />
-      <SocialProof />
-      <PricingSection />
+      {/* Mobile: keep homepage minimal (nav + header + footer) */}
+      <div className="md:hidden">
+        <Hero />
+      </div>
+
+      {/* Tablet/Web: keep full marketing flow unchanged */}
+      <div className="hidden md:block">
+        <Hero />
+        <ProblemSection />
+        <HowItWorks />
+        <FeaturesSection />
+        <SocialProof />
+        <PricingSection />
+      </div>
     </main>
   )
 }
