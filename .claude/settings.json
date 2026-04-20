@@ -6,7 +6,8 @@
       "Bash(curl -s -o /dev/null -w * http://localhost:*)",
       "Bash(curl -s -o /dev/null -w * -L http://localhost:*)",
       "Bash(curl -v http://localhost:*)",
-      "Bash(npx convex env list)"
+      "Bash(npx convex env list)",
+      "Bash(find \"/Users/celestineemili/Desktop/Code Root/scaleyourbackend/salesai\" -type f \\\\\\( -name \"*.tsx\" -o -name \"*.ts\" \\\\\\) -not -path \"*/node_modules/*\" -not -path \"*/.next/*\" -not -path \"*/_generated/*\" -exec stat -f \"%m %N\" {} \\\\;)"
     ]
   }
 }
